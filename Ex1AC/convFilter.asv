@@ -1,0 +1,7 @@
+function I = convFilter(inputImage, mask)
+
+%get  mask size
+[M,N] = size(mask);
+
+
+Ipad = padding(inputImage, M, N
