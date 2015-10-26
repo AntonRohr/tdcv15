@@ -2,9 +2,6 @@ function Ipad = padding(inputImage, padM, padN, type)
 
 [x,y] = size(inputImage);
 
-padM = floor(padM/2);
-padN = floor(padN/2);
-
 Ipad = zeros(x+padM*2, y+padN*2);
 
 Ipad(padM+1:end-padM,padN+1:end-padN) = inputImage;
