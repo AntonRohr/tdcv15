@@ -7,6 +7,7 @@ vertical = horizontal';
 
 kernel = repmat(horizontal,n,1).*repmat(vertical,1,n);
 
-
+%Normalizing step
+kernel = kernel./sum(sum(kernel));
 end
 
