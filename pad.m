@@ -1,9 +1,9 @@
 function padded_image = pad(input, padX, padY, type)
 %Inititalise the an output array of the right size
-padded_image = zeros(2*padX+size(input,1),2*padY+size(input,2));
+padded_image = zeros(2*padY+size(input,2),2*padX+size(input,1));
 
 %The interior of the padded image is simply the input image
-padded_image(padX+1:end-padX, padY+1:end-padY) = input;
+padded_image(padY+1:end-padY,padX+1:end-padX) = input;
 
 %Copy the border pixel throughout the padding
 if strcmp(type,'replicate')
