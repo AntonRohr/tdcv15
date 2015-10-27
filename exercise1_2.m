@@ -9,7 +9,7 @@ subplot(3,3,1); imagesc(input);
 %Create the input mask
 mask_2d = gaussianKernel2d(15,5);
 
-mask_1d_h = discreteGaussian(15,5)./discreteGaussian(15,5);
+mask_1d_h = discreteGaussian(15,5)/sum(discreteGaussian(15,5));
 mask_1d_v = mask_1d_h';
 
 %Apply the convolution filter
