@@ -1,4 +1,5 @@
-function [ a1,a2,b1,b2 ] = exercise2( image )
+%read image and convert to double type. 
+image = im2double(imread('lena.gif'));
 
 
 sigma = 1;
@@ -25,5 +26,4 @@ sumErrors1 = sum(sum((a1-b1).^2))
 sumErrors2 = sum(sum((a2-b2).^2))
 
 
-end
 
