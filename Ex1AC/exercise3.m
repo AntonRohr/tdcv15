@@ -22,58 +22,70 @@ orientations = atan2(InConvDx, InConvDy);
 
 %--- part c)
 
-sigma = 3;
+sigma = 1;
 
-tmp = convFilter(gaussian2dMask(3*sigma, 3*sigma, sigma), Dx, type);
-Ix = convFilter(inputImage, tmp, type);
+tmp = convFilter(inputImage, gaussian2dMask(3*sigma, 3*sigma, sigma), type);
+Ix1 = convFilter(tmp, Dx, type);
 
-tmp = convFilter(gaussian2dMask(3*sigma, 3*sigma, sigma), Dy, type);
-Iy = convFilter(inputImage, tmp, type);
+Iy1 = convFilter(tmp, Dy, type);
 
 %same as above, only with the smoothed images
-gradientSmoothed = sqrt(Ix.^2+Iy.^2);
+gradientSmoothed1 = sqrt(Ix1.^2+Iy1.^2);
 
-orientationsSmoothed = atan2(Ix, Iy);
+orientationsSmoothed1 = atan2(Ix1, Iy1);
 
 
-subplot(3,4,1);
+tmp = convFilter(gaussian2dMask(3*sigma, 3*sigma, sigma), Dx, type);
+Ix2 = convFilter(inputImage, tmp, type);
+
+tmp = convFilter(gaussian2dMask(3*sigma, 3*sigma, sigma), Dy, type);
+Iy2 = convFilter(inputImage, tmp, type);
+
+%same as above, only with the smoothed images
+gradientSmoothed2 = sqrt(Ix2.^2+Iy2.^2);
+
+orientationsSmoothed2 = atan2(Ix2, Iy2);
+
+
+subplot(2,4,1);
 imshow(InConvDx);
 title('Dx');
 
-subplot(3,4,2);
+subplot(2,4,2);
 imshow(InConvDy);
 title('Dy');
 
-subplot(3,4,3);
+subplot(2,4,3);
 imshow(gradient);
 title('Gradient Magnitudes');
 
-subplot(3,4,4);
+subplot(2,4,4);
 imshow(orientations);
 title('Orientations');
 
-subplot(3,4,5);
-imshow(Ix);
-title('Dx - smoothed');
+%subplot(3,4,5);
+%imshow(Ix);
+%title('Dx - smoothed');
 
-subplot(3,4,6);
-imshow(Iy);
-title('Dy - smoothed');
+%subplot(3,4,6);
+%imshow(Iy);
+%title('Dy - smoothed');
 
-subplot(3,4,7);
-imshow(gradientSmoothed);
-title('Gradient Magnitudes - smoothed');
+subplot(2,4,5);
+imshow(gradientSmoothed1);
+title('Gradient Magnitudes - smoothed 1');
 
-subplot(3,4,8);
-imshow(orientationsSmoothed);
-title('Orientations - smoothed');
+subplot(2,4,6);
+imshow(orientationsSmoothed1);
+title('Orientations - smoothed 1');
 
-subplot(3,4,11);
-imshowpair(gradient, gradientSmoothed, 'diff');
-title('gradient diff smoothed gradient');
+subplot(2,4,7);
+imshow(gradientSmoothed2);
+title('Gradient Magnitudes - smoothed 2');
 
-subplot(3,4,12);
-imshowpair(orientations, orientationsSmoothed, 'diff');
-title('orientations diff smoothed orientations'); 
+subplot(2,4,8);
+imshow(orientationsSmoothed2);
+title('Orientations - smoothed 2');
+
 
 
