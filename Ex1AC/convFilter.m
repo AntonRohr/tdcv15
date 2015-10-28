@@ -20,12 +20,12 @@ mask = normalize(mask);
 
 %iterate over
 for x = 1:rows
-   for y = 1:cols
+    for y = 1:cols
        %scalar wise multiple the mask with the underlying paddedimage
        temp = mask.*paddedImage(x:x+M-1,y:y+N-1);
        % then sum it up and the value is 
        outputImage(x,y) = sum(sum(temp));
-   end
+    end
 end
 
 
