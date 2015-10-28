@@ -16,7 +16,7 @@ else
     for i = middle:length(discrete_gaussian)
         x = i - middle;
         %TODO: Extract the actual Gaussian function
-        discrete_gaussian(i) = (1/(sigma*sqrt(2*pi)))*exp(-(x^2)/(sigma^2));
+        discrete_gaussian(i) = (1/(sigma*sqrt(2*pi)))*exp(-(1/2)*(x^2)/(sigma^2));
     end
     
     

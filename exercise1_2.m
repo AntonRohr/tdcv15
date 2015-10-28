@@ -13,11 +13,17 @@ mask_1d_h = discreteGaussian(15,5)/sum(discreteGaussian(15,5));
 mask_1d_v = mask_1d_h';
 
 %Apply the convolution filter
+tic;
 output_2d = filter2d(input, mask_2d, 'replicate');
-output_1d_h = filter2d(input, mask_1d_h, 'replicate');
+t_2d = toc;
+
+
 output_1d_v = filter2d(input, mask_1d_v, 'replicate');
 
+tic;
+output_1d_h = filter2d(input, mask_1d_h, 'replicate');
 output_h_v = filter2d(output_1d_h, mask_1d_v, 'replicate');
+t_1d = toc;
 
 %Plot the output
 subplot(3,3,2); imagesc(output_2d);
