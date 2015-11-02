@@ -21,9 +21,9 @@ for x = 1:rows
         
         %tmp = paddedImage(x:x+sizeM-1, y:y+sizeN-1);
         
-        tmp = inputImage(ix:jx, iy:jy);
+        roi = inputImage(ix:jx, iy:jy); % region of interest
         
-        outputImage(x,y) = median(tmp(:));
+        outputImage(x,y) = median(roi(:));
     end
 end
 

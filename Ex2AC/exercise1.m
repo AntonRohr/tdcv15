@@ -46,3 +46,5 @@ title('Gaussian noise convoluted with gaussian filter');
 subplot(3,2,5);
 imshow(outputSaltGFilter);
 title('Salted image with gaussian filter');
+
+
