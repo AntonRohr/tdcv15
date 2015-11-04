@@ -56,5 +56,6 @@ for x = 1:rows
         end
     end
 end
+fprintf('\n');
 
 end
