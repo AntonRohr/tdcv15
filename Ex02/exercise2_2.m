@@ -1,0 +1,10 @@
+I = imread('lena.gif');
+I = im2double(I);
+A = bilateralFilter(I, 1, 0.1, 'mirror');
+B = bilateralFilter(I, 5, 0.1, 'mirror');
+C = bilateralFilter(I, 10, 0.1, 'mirror');
+subplot(2,2,1); imagesc(I); title('Original');
+subplot(2,2,2); imagesc(A); title('sigma = 1; sigma_r = 0.1');
+subplot(2,2,3); imagesc(B); title('sigma = 5; sigma_r = 0.1');
+subplot(2,2,4); imagesc(C); title('sigma = 10; sigma_r = 0.1');
+colormap gray;
