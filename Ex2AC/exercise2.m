@@ -11,9 +11,10 @@ tic;
 outputImage2 = bilateralFilter2(image, sigma);
 toc;
 
-%imshowpair(outputImage, outputImage2, 'diff');
-%imshow(outputImage2);
-%outputImage-outputImage2
-%sum(sum((outputImage-outputImage2)^2))
 
 %imshowpair(outputImage, outputImage2, 'diff');
+imshowpair(outputImage, outputImage2, 'montage');
+%imshow(outputImage2);
+%outputImage-outputImage2
+sum(sum((outputImage-outputImage2)^2))
+

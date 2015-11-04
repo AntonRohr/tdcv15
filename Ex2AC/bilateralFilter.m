@@ -4,46 +4,57 @@ function outputImage = bilateralFilter(inputImage, sigma)
 [rows, cols] = size(inputImage);
 outputImage = zeros(rows,cols);
 
-halfSigmaX = floor(3*sigma/2);
-halfSigmaY = floor(3*sigma/2);
 
-paddedImage = padding(inputImage, halfSigmaX, halfSigmaY, 'mirror');
+roiSizeX = 3*sigma;
+roiSizeY = 3*sigma;
 
-weightMatrix = zeros(3*sigma, 3*sigma);
+centralX = ceil(roiSizeX/2);
+centralY = ceil(roiSizeY/2);
 
-for m = 1:3*sigma
-    for n = 1:3*sigma
-        weightMatrix(m,n) = domainFilter([m,n], [halfSigmaX+1,halfSigmaY+1], sigma);
+weightMatrix = zeros(roiSizeX, roiSizeY);
+
+for m = 1:size(weightMatrix, 1)
+    for n = 1:size(weightMatrix, 2)
+        weightMatrix(m,n) = domainFilter([m,n], [centralX,centralY], sigma);
     end
 end
 
 for x = 1:rows
     for y = 1:cols
         
-        % compute c
-        c = 0;
-        d = 0;
-        for i = x:x+3*sigma-1
-            for j = y:y+3*sigma-1
-                %weight = domainFilter([i;j],[x;y],sigma);
-                weight = weightMatrix(i-x+1, j-y+1);
-                
-                range = rangeFilter(paddedImage(i,j),inputImage(x,y),0.1);
-                
-                c = c+(weight*range);
-                
-                d = d+(paddedImage(i,j) * weight * range);
-            end
-        end
+        roiITLx = max(x-centralX+1, 1); % roi of Image Top Left X coordinate
+        roiITLy = max(y-centralY+1, 1); % roi of Image Top Left Y coordinate
         
-        h = d/c;
+        roiIBRx = min(x-centralX+roiSizeX, rows); % roi of Image Bottom Right X coordinate
+        roiIBRy = min(y-centralY+roiSizeY, cols); % roi of Image Bottom Right Y coordinate
+        
+        roiI = inputImage(roiITLx:roiIBRx, roiITLy:roiIBRy); %region of interest of Image;
+        
+        
+        
+        roiRanged = rangeFilter2(roiI, inputImage(x,y), 0.1); % compute range values
+        
+        roiWTLx = centralX -(x-roiITLx); % roi of Weights Top Left X coordinate
+        roiWTLy = centralY -(y-roiITLy); % roi of Weights Top Left Y coordinate
+        
+        roiWBRx = centralX -(x-roiIBRx); % roi of Weights Bottom Right X coordinate
+        roiWBRy = centralY -(y-roiIBRy); % roi of Weights Bottom Right Y coordinate
+        
+
+        roiW = weightMatrix(roiWTLx: roiWBRx, roiWTLy: roiWBRy); %region of interest of Weights
+
+        
+        
+        %tmp = roiRanged.*roiW;
+        
+        
+        c = sum(sum(roiRanged.*roiW));
+        d = sum(sum(roiI.*roiRanged.*roiW));
+        h = d / c;
         outputImage(x,y) = h;
         
-        
-        %tmp = paddedImage(x:x+3*sigma-1, y:y+3*sigma-1);
-        
-        
     end
+    
 end
 
 end
