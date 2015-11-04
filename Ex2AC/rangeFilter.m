@@ -1,9 +1,12 @@
-function r = rangeFilter(intensityXi, intensityX, sigmaR)
+function r = rangeFilter(Xi, X, sigmaR)
 
-intensityDistance = norm(intensityXi - intensityX);
-r = exp((-1/2) * (intensityDistance/sigmaR)^2);
+    r = zeros(size(Xi));
 
+    for x = 1:size(Xi,1)
+        for y = 1:size(Xi,2)
+            intensityDistance = norm(Xi(x,y) - X);
+            r(x,y) = exp((-1/2) * (intensityDistance/sigmaR)^2);
+        end
+    end
 
 end
-
-
