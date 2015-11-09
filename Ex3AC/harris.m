@@ -1,4 +1,4 @@
-function [ outputImage ] = harris( image, n, s0, k, alpha, t )
+function [ outputImage, list ] = harris( image, n, s0, k, alpha, t )
 
 outputImage = zeros(size(image));
 
@@ -44,6 +44,11 @@ for j = 1:n
     end
 
 end
+
+tmp = nmsFilter(outputImage, 10, 10);
+
+[r,c] = find(tmp);
+list = [c,r];
     
 end
 
