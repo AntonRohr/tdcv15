@@ -18,19 +18,10 @@ function [ output, list ] = harris( image, n, s0, k, alpha, t )
         gaussSigma_Dn = fspecial('Gaussian', ceil(3*sigma_Dn), sigma_Dn);
         gaussSigma_In = fspecial('Gaussian', ceil(3*sigma_In), sigma_In);
                
-        % ORIGINAL - first gauss, then derivate mast
         gaussed = conv2(image, gaussSigma_Dn, 'same');
         
         Lx = conv2(gaussed, dx, 'same');
-        Ly = conv2(gaussed, dy, 'same');
-        
-        % ALTERNATIVE 1 - this seems to be the derivate of gauss. 
-        %x  = -round(3*sigma_Dn):round(3*sigma_Dn);
-        %dx = x .* exp(-x.*x/(2*sigma_Dn*sigma_Dn)) ./ (sigma_Dn*sigma_Dn*sigma_Dn*sqrt(2*pi));
-        %dy = dx';
-        
-        %Lx = conv2(image, dx, 'same');
-        %Ly = conv2(image, dy, 'same');        
+        Ly = conv2(gaussed, dy, 'same');   
         
         % elements of the matrix M
         Lx2 = Lx.^2;
@@ -59,11 +50,11 @@ function [ output, list ] = harris( image, n, s0, k, alpha, t )
         %[row, col, val] = findLocalMaximum(R, cornerDist);
         
         % count corners
-        n = size(row,1)
+        n = size(row,1);
         
         % add corners at end of corner list
         list(end+1:end+n,:) = [row, col, repmat(j, n, 1), repmat(sigma_In, n, 1)];
-        %list(end+1:end+n,:) = [row, col, val];
+        
       
         
         

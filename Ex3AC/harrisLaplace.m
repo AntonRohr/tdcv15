@@ -38,7 +38,7 @@ function [ listCorners ] = harrisLaplace( image, n, s0, k, alpha, th, tl )
        
         % check if the current point in the list is a candidate and
         % check if it is a scale maximum regarding the "nearest" scales
-        if F(row, col, scale) > tl
+        if F(row, col, scale) > tl && n > 1
             if (scale==1)
                 if F(row, col, scale) > F(row,col, scale+1)
                     listCorners(end+1,:) = list(i,:);
