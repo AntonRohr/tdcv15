@@ -15,8 +15,8 @@ function [ output, list ] = harris( image, n, s0, k, alpha, t )
         sigma_In = k^j*s0;
         sigma_Dn = 0.7 * sigma_In; % slide 81 
 
-        gaussSigma_Dn = fspecial('Gaussian', round(3*sigma_Dn), sigma_Dn);
-        gaussSigma_In = fspecial('Gaussian', round(3*sigma_In), sigma_In);
+        gaussSigma_Dn = fspecial('Gaussian', ceil(3*sigma_Dn), sigma_Dn);
+        gaussSigma_In = fspecial('Gaussian', ceil(3*sigma_In), sigma_In);
                
         % ORIGINAL - first gauss, then derivate mast
         gaussed = conv2(image, gaussSigma_Dn, 'same');

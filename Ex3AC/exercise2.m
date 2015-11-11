@@ -10,16 +10,16 @@ s0 = 1;
 k = 1.4;
 alpha = 0.05;
 
-list = harrisLaplace(imageTunnel, n, s0, k, alpha, 0.01, 0.003);
-drawn = drawCorners(imageTunnel, list, 'rectangle');
+%list = harrisLaplace(imageTunnel, n, s0, k, alpha, 0.01, 0.003);
+%drawn = drawCorners(imageTunnel, list, 'rectangle');
 
-%list = harrisLaplace(imageTest, n, s0, k, alpha, 0.01, 0.003);
+%list = harrisLaplace(imageTest, 3, s0, k, 0.05, 0.0001, 0);
 %drawnTest = drawCorners(imageTest, list, 'rectangle');
 
-%list = harrisLaplace(imageHouse, n, s0, k, alpha, 0.01, 0.003);
+%list = harrisLaplace(imageHouse, n, s0, k, alpha, 0.03, 0.0003);
 %drawnHouse = drawCorners(imageHouse, list, 'rectangle');
 
-%list = harrisLaplace(imageLena, n, s0, k, alpha, 0.01, 0.003);
+%list = harrisLaplace(imageLena, n, s0, k, alpha, 0.005, 0.003);
 %drawnLena = drawCorners(imageLena, list, 'rectangle');
 
 %list = harrisLaplace(imageSample2, n, s0, k, alpha, 0.01, 0.003);
@@ -30,4 +30,4 @@ drawn = drawCorners(imageTunnel, list, 'rectangle');
 
 
 
-imshow(drawn);
+imshow(drawnHouse);
