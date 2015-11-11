@@ -8,19 +8,19 @@ imageSample2 = im2double(rgb2gray(imread('sample2.jpg')));
 imageSmall = checkerboard(50);
 
 % define default values for the parameters
-n = 7; 
+n = 3; 
 s0 = 1;
 k = 1.4;
 alpha = 0.05;
-t = 0.0005;
+t = 0.03;
 
 %image = conv2(image, fspecial('Gaussian', 5, 1), 'same');
 
 
-[output, list] = harris(imageSmall, n, s0, k, alpha, t);
+[output, list] = harris(imageTunnel, n, s0, k, alpha, t);
 
-list = [list(:,2) list(:,1) list(:,4).*2];
-drawn = drawCorners2(image, list);
+%list = [list(:,2) list(:,1) list(:,4).*2];
+drawn = drawCorners2(imageTunnel, list);
 imshow(drawn);
 %imshowpair(drawn, output, 'montage');
 

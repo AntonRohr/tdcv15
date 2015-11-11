@@ -17,15 +17,7 @@ function [ output, list ] = harris( image, n, s0, k, alpha, t )
 
         gaussSigma_Dn = fspecial('Gaussian', round(3*sigma_Dn), sigma_Dn);
         gaussSigma_In = fspecial('Gaussian', round(3*sigma_In), sigma_In);
-        
-        % ORIGINAL - gauss convoluted with "derivate - mask"
-        %dxGau = conv2(gaussSigma_Dn, dx);
-        %dyGau = conv2(gaussSigma_Dn, dy);     
-        %mesh(dxGau);
-        
-        %Lx = conv2(image, dxGau, 'same');
-        %Ly = conv2(image, dyGau, 'same');
-        
+               
         % ORIGINAL 2 :D - first gauss, then derivate mast
         gaussed = conv2(image, gaussSigma_Dn, 'same');
         
@@ -38,20 +30,7 @@ function [ output, list ] = harris( image, n, s0, k, alpha, t )
         %dy = dx';
         
         %Lx = conv2(image, dx, 'same');
-        %Ly = conv2(image, dy, 'same');
-
-        % ALTERNATIVE 2
-        %dx = [-1, 0, 1];
-        
-        %gaussSigma_Dn = fspecial('Gaussian', [1, round(3*sigma_Dn)], sigma_Dn)
-        
-        %dxGau = conv2(gaussSigma_Dn, dx);
-        %plot(dxGau);
-        %dyGau = conv2(gaussSigma_Dn', dx');
-        
-        %Lx = conv2(image, dxGau, 'same');
-        %Ly = conv2(image, dyGau, 'same');
-        
+        %Ly = conv2(image, dy, 'same');        
         
         % elements of the matrix M
         Lx2 = Lx.^2;
@@ -85,13 +64,7 @@ function [ output, list ] = harris( image, n, s0, k, alpha, t )
         % add corners at end of corner list
         list(end+1:end+n,:) = [row, col, repmat(j, n, 1), repmat(sigma_In, n, 1)];
         %list(end+1:end+n,:) = [row, col, val];
-
-        % HELPERS
-        maxVal = max(val)
-        minVal = min(val)
-        avgVal = mean(val)
-        medVal = median(val)
-        
+      
         
         %for x = 1:size(image,1)
         %    for y = 1:size(image, 2)

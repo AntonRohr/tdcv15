@@ -3,6 +3,8 @@ function [ output ] = drawCorners2( image, list )
 %   Detailed explanation goes here
 
 
+list = [list(:,2) list(:,1) list(:,4).*2];
+
 red = uint8([255 0 0]); % generate color red
 
 
