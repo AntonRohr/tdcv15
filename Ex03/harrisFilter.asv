@@ -12,24 +12,20 @@ gaussian_d = gaussian2D(sigma_d);
 gaussian_i = gaussian2D(sigma_i);
 
 %smooth the image
-d_smoothed_image = conv2(gaussian_d, input);
+d_smoothed_image = conv2(input, gaussian_d, 'same');
 
 %first derivatives
-image_x = conv2(d_x, d_smoothed_image);
-image_y = conv2(d_y, d_smoothed_image);
+image_x = conv2(d_smoothed_image, d_x,'same');
+image_y = conv2(d_smoothed_image, d_y,'same');
 
-%second derivatives
-image_x_x = conv2(d_x, image_x);
-image_x_y = conv2(d_y, image_x);
-image_y_y = conv2(d_y, image_y);
+%second moments
+image_x_y = image_
 
 for i = 1:size(output,2)
     for j = 1:size(output,1)
             cross_derivatives = [image_x_x(j,i),image_x_y(j,i);image_x_y(j,i),image_y_y(j,i)];
-            
+            M = (sigma_d^2) * conv2(gaussian_i, cross_derivatives);
+            output(j,i) = harris_response(M, alpha);
     end
-    end11
-
-
 end
 
