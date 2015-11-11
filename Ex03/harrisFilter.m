@@ -1,6 +1,6 @@
 function output = harrisFilter( input, sigma_i, sigma_d, alpha )
 %HARRISFILTER computes the Harris filter response over an image
-
+input = double(input);
 output = zeros(size(input));
 
 %1-D discrete derivative masks
@@ -32,7 +32,10 @@ for i = 1:size(output,2)
     for j = 1:size(output,1)
             second_moment_matrix = [image_x_x(j,i),image_x_y(j,i);image_x_y(j,i),image_y_y(j,i)];
             M = (sigma_d^2) * second_moment_matrix;
-            output(j,i) = harris_response(M, alpha);
+            re = harris_response(M, alpha);
+            if re>0
+                output(j,i) = re;
+            end
     end
 end
 

@@ -1,0 +1,12 @@
+function output = localMaximum( input, faround )
+%LOCALMAXIMUM 此处显示有关此函数的摘要
+%   此处显示详细说明
+[row, col, level] = size(input);
+for l=1 : level
+    output_level = zeros(row,col);
+    for i = 1 : row
+        for j = 1 : col
+            local = 
+
+end
+
