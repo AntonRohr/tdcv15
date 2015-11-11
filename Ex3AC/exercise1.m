@@ -1,17 +1,44 @@
-image = im2double(imread('checkerboard_tunnel.png'));
-%image = im2double(imread('test.pgm'));
+%image = im2double(imread('checkerboard_tunnel.png'));
+image = im2double(imread('test.pgm'));
+%image = im2double(imread('house.png'));
+%image = im2double(imread('lena.gif'));
+%image = im2double(rgb2gray(imread('sample2.jpg')));
 
-n = 3; 
+n = 5; 
 s0 = 1;
 k = 1.4;
 alpha = 0.05;
-t = 0;
+t = 0.000;
+
+%image = conv2(image, fspecial('Gaussian', 5, 1), 'same');
+
 
 [output, list] = harris(image, n, s0, k, alpha, t);
 
-drawn = drawRects(image, list);
+
+list = [list(:,2) list(:,1) list(:,3).*3];
+
+drawn = drawCorners2(image, list);
+
+imshowpair(drawn, output, 'montage');
+
+
+%mesh(output(:,:,1));
+%hold on
+%mesh(output(:,:,5));
+
+%max(output(:))
+
+
 
 %mesh(output);
-imshowpair(drawn,output,'montage');
+%imshowpair(drawn,output,'montage');
 %imagesc(output); colormap gray;
 %imshow(output);
+
+
+%--- test other files
+%output = kp_harrislaplace(image);
+%list = [output(:,2) output(:,1)];
+%drawn = drawCorners(image, list, 'circle');
+%imshow(drawn); 

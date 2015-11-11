@@ -1,27 +1,26 @@
-function [ outputImage ] = nmsFilter( inputImage, sizeM, sizeN )
-
-padM = floor(sizeM/2);
-padN = floor(sizeN/2);
+function [ outputImage ] = nmsFilter( inputImage, radiusMask )
 
 outputImage = zeros(size(inputImage));
 
-[rows, cols] = size(outputImage);
+[rows, cols] = size(inputImage);
 
-for x = 1:rows
-    for y = 1:cols
+
+
+for row = 1:rows
+    for col = 1:cols
         
-        ix = max(x-padM, 1);
-        iy = max(y-padN, 1);
+        icol = max(col-radiusMask, 1);
+        irow = max(row-radiusMask, 1);
         
-        jx = min(x+padM, cols);
-        jy = min(y+padN, rows);
+        jcol = min(col+2*radiusMask, cols);
+        jrow = min(row+2*radiusMask, rows);
         
         
-        roi = inputImage(ix:jx, iy:jy); % region of interest
+        roi = inputImage(irow:jrow, icol:jcol); % region of interest
         
         maxValue = max(roi(:));
-        if maxValue == inputImage(x,y)
-            outputImage(x,y) = maxValue;
+        if maxValue == inputImage(row,col)
+            outputImage(row,col) = maxValue;
         end
     end
 end
