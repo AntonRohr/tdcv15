@@ -1,30 +1,58 @@
 function [ output, list ] = harris( image, n, s0, k, alpha, t )
 
-    output = zeros(size(image));
+    output = zeros(size(image,1), size(image,2), n);
 
     cornerDist = round(max(size(image)) / 100); %distancebetween to corners
 
 
     dx = [-1,0,1;-1,0,1;-1,0,1];
-    dy = [-1,-1,-1;0,0,0;1,1,1];
+    dy = dx';
 
-    list = zeros(0,3);
+    list = zeros(0,4);
 
     for j = 1:n
 
-        scale = k^j*s0;
-        sigma_In = scale;
-        sigma_Dn = 0.7 * scale; % slide 81 
+        sigma_In = k^j*s0;
+        sigma_Dn = 0.7 * sigma_In; % slide 81 
 
         gaussSigma_Dn = fspecial('Gaussian', round(3*sigma_Dn), sigma_Dn);
         gaussSigma_In = fspecial('Gaussian', round(3*sigma_In), sigma_In);
         
-        dxGau = conv2(gaussSigma_Dn, dx);
-        dyGau = conv2(gaussSigma_Dn, dy);        
+        % ORIGINAL - gauss convoluted with "derivate - mask"
+        %dxGau = conv2(gaussSigma_Dn, dx);
+        %dyGau = conv2(gaussSigma_Dn, dy);     
+        %mesh(dxGau);
         
-        Lx = conv2(image, dxGau, 'same');
-        Ly = conv2(image, dyGau, 'same');
+        %Lx = conv2(image, dxGau, 'same');
+        %Ly = conv2(image, dyGau, 'same');
+        
+        % ORIGINAL 2 :D - first gauss, then derivate mast
+        gaussed = conv2(image, gaussSigma_Dn, 'same');
+        
+        Lx = conv2(gaussed, dx, 'same');
+        Ly = conv2(gaussed, dy, 'same');
+        
+        % ALTERNATIVE 1 - this seems to be the derivate of gauss. 
+        %x  = -round(3*sigma_Dn):round(3*sigma_Dn);
+        %dx = x .* exp(-x.*x/(2*sigma_Dn*sigma_Dn)) ./ (sigma_Dn*sigma_Dn*sigma_Dn*sqrt(2*pi));
+        %dy = dx';
+        
+        %Lx = conv2(image, dx, 'same');
+        %Ly = conv2(image, dy, 'same');
 
+        % ALTERNATIVE 2
+        %dx = [-1, 0, 1];
+        
+        %gaussSigma_Dn = fspecial('Gaussian', [1, round(3*sigma_Dn)], sigma_Dn)
+        
+        %dxGau = conv2(gaussSigma_Dn, dx);
+        %plot(dxGau);
+        %dyGau = conv2(gaussSigma_Dn', dx');
+        
+        %Lx = conv2(image, dxGau, 'same');
+        %Ly = conv2(image, dyGau, 'same');
+        
+        
         % elements of the matrix M
         Lx2 = Lx.^2;
         Ly2 = Ly.^2;
@@ -34,8 +62,7 @@ function [ output, list ] = harris( image, n, s0, k, alpha, t )
         Lx2 = conv2(Lx2, gaussSigma_In.*(sigma_Dn^2), 'same'); 
         Ly2 = conv2(Ly2, gaussSigma_In.*(sigma_Dn^2), 'same');
         Lxy = conv2(Lxy, gaussSigma_In.*(sigma_Dn^2), 'same');
-
-
+        
         % [a ,b]
         % [c, d]
         % det = a*d - c*d    => Lx2 * Ly2 - Lxy^2
@@ -46,24 +73,24 @@ function [ output, list ] = harris( image, n, s0, k, alpha, t )
         R(R<t) = 0;
 
         % non-maximum suppression
-        output = nmsFilter(R, cornerDist);
-
-        
+        output(:,:,j) = nmsFilter(R, 1);
         
         % find positons of corners
-        [row, col, val] = find(output);
-
+        [row, col, val] = find(output(:,:,j));
+        %[row, col, val] = findLocalMaximum(R, cornerDist);
         
         % count corners
         n = size(row,1)
         
         % add corners at end of corner list
-        list(end+1:end+n,:) = [row, col, repmat(scale, n, 1)];
+        list(end+1:end+n,:) = [row, col, repmat(j, n, 1), repmat(sigma_In, n, 1)];
         %list(end+1:end+n,:) = [row, col, val];
 
         % HELPERS
-        maxR = max(output(:))
-        output = Lxy;
+        maxVal = max(val)
+        minVal = min(val)
+        avgVal = mean(val)
+        medVal = median(val)
         
         
         %for x = 1:size(image,1)
