@@ -18,7 +18,7 @@ function [ output, list ] = harris( image, n, s0, k, alpha, t )
         gaussSigma_Dn = fspecial('Gaussian', round(3*sigma_Dn), sigma_Dn);
         gaussSigma_In = fspecial('Gaussian', round(3*sigma_In), sigma_In);
                
-        % ORIGINAL 2 :D - first gauss, then derivate mast
+        % ORIGINAL - first gauss, then derivate mast
         gaussed = conv2(image, gaussSigma_Dn, 'same');
         
         Lx = conv2(gaussed, dx, 'same');
@@ -52,7 +52,7 @@ function [ output, list ] = harris( image, n, s0, k, alpha, t )
         R(R<t) = 0;
 
         % non-maximum suppression
-        output(:,:,j) = nmsFilter(R, 1);
+        output(:,:,j) = nmsFilter(R, cornerDist);
         
         % find positons of corners
         [row, col, val] = find(output(:,:,j));
@@ -66,29 +66,10 @@ function [ output, list ] = harris( image, n, s0, k, alpha, t )
         %list(end+1:end+n,:) = [row, col, val];
       
         
-        %for x = 1:size(image,1)
-        %    for y = 1:size(image, 2)
-
-        %       mat = [Lx2(x,y), Lxy(x,y); Lxy(x,y), Ly2(x,y)];
-
-                %mat = conv2(mat, gaussianMask, 'same');
-
-        %        R = det(mat) - alpha * (trace(mat) ^ 2);
-
-        %        if (R > t && R > output(x,y))
-        %            output(x,y) = R;
-        %        end
-
-        %    end
-        %end
-
+        
 
     end
     
     
-    
-    
-
-
 end
 

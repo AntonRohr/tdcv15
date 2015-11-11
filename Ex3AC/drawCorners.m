@@ -6,6 +6,8 @@ radius = round(max(size(image)) / 100); % calculate radius size
 
 yellow = uint8([255 255 0]); % generate color yellow
 
+list = [list(:,2) list(:,1)];
+
 if strcmp(shape, 'circle')
 
     shapeInserter = vision.ShapeInserter('Shape','Circles','BorderColor','Custom','CustomBorderColor',yellow); 
