@@ -1,4 +1,4 @@
-function output = harrisFilter( input, sigma_i, sigma_d, alpha )
+function output = harrisFilter( input, sigma_i, sigma_d, alpha , t)
 %HARRISFILTER computes the Harris filter response over an image
 input = double(input);
 output = zeros(size(input));
@@ -38,4 +38,9 @@ for i = 1:size(output,2)
             end
     end
 end
+
+output(output<t) = 0;
+
+end
+
 
