@@ -32,14 +32,15 @@ for i = 1:size(output,2)
     for j = 1:size(output,1)
             second_moment_matrix = [image_x_x(j,i),image_x_y(j,i);image_x_y(j,i),image_y_y(j,i)];
             M = (sigma_d^2) * second_moment_matrix;
-            re = harris_response(M, alpha);
-            if re>0
-                output(j,i) = re;
-            end
+            output(j,i) = harris_response(M, alpha);
     end
 end
 
+%thresholding
 output(output<t) = 0;
+
+%non-maximum suppression
+output = suppressNonmax(output, 1);
 
 end
 
