@@ -1,22 +1,18 @@
 function displayCorners( image, corners, r )
-%DISPLAYCORNERS 此处显示有关此函数的摘要
-%   此处显示详细说明
-
+%DISPLAYCORNERS
 figure;
 imagesc(image);
 colormap gray;
 hold on;
 
-[row, col, scale] = size(corners);
-for s = 1 : scale
+[row, col] = size(corners);
     for i = 1 : row
         for j = 1 : col
-            if corners(i,j,s) > 0
-                plot(i, j, 'or', 'markersize', r*s);
+            if corners(i,j) > 0
+                plot(j, i, 'or', 'markersize', r);
             end
         end
     end
-end
 
 hold off;
 end
