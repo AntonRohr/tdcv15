@@ -6,7 +6,7 @@ imageSample2 = im2double(rgb2gray(imread('sample2.jpg')));
 imageCheckerboard = checkerboard(50);
 
 % define default values for the parameters
-n = 1; 
+n = 5; 
 s0 = 1;
 k = 1.4;
 alpha = 0.05;
