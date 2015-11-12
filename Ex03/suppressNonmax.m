@@ -4,7 +4,7 @@ function  output = suppressNonmax( input, patch_size )
 output = zeros(size(input));
 
 %Need to pad the input
-padded_input = zeros(2*patch_size+size(input,2),2*patch_size+size(input,1));
+padded_input = zeros(2*patch_size+size(input,1),2*patch_size+size(input,2));
 
 %The interior of the padded image is simply the input image
 padded_input(patch_size+1:end-patch_size,patch_size+1:end-patch_size) = input;
