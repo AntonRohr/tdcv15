@@ -34,18 +34,30 @@ end
 
 %[newf, newfb] = deleteOutliers(newf, newfb);
 
-[tform,list1,list2] = estimateGeometricTransform(newf(1:2,:)',newfb(1:2,:)','projective');
+[tform,list1,list2] = estimateGeometricTransform(newf(1:2,:)',newfb(1:2,:)','projective', 'Confidence', 60);
 
-bbPointList = [size(Ib, 2), 1; size(merged,2), size(I,1)];
+% create bounding box
+% all [col, row]
+bbTopLeft = [size(Ib, 2)+1, 1];
+bbTopRight = [size(merged, 2), 1];
+bbBottomRight = [size(merged,2), size(I,1)];
+bbBottomLeft = [size(Ib, 2)+1, size(I, 1)];
 
-outputList = transformPointsForward(tform,bbPointList);
+% transform points to other image
+bbTransformed = transformPointsForward(tform,[bbTopLeft; bbTopRight; bbBottomRight; bbBottomLeft]);
 
-output = drawLines(merged, [outputList(1,:), outputList(2,:)]);
-%output = drawLines(merged, [bbPointList(1,:), bbPointList(2,:)]);
+% create bb lines (topleft -> topRight, topRight -> bottomRight, ...)
+bbDrawable = [bbTransformed(1,:), bbTransformed(2,:); bbTransformed(2,:), bbTransformed(3,:); bbTransformed(3,:), bbTransformed(4,:); bbTransformed(4,:), bbTransformed(1,:)];
 
 
+% drawlist of matching features
+drawList = [list1, list2];
 
-%output = drawLines(merged, [list1, list2]);
+% add bb to draw lines
+drawList(end+1:end+4,:) = bbDrawable;
+
+% draw
+output = drawLines(merged, drawList);
 
 imshow(output);
 
