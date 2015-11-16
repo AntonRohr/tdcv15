@@ -7,6 +7,7 @@ function [ output ] = drawLines( RGBimage, list, color )
 lines = int32(list);
 
 output = insertShape(RGBimage, 'Line', lines, 'LineWidth', 6, 'Color', color);
+%output = insertShape(RGBimage, 'Line', lines, 'Color', color);
 
 end
 
