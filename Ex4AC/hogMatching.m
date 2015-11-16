@@ -1,4 +1,4 @@
-function [ output_args ] = hogMatching( objectImageRGB, sceneImageRGB )
+function [ output ] = hogMatching( objectImageRGB, sceneImageRGB )
 %HOGMATCHING Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -15,12 +15,39 @@ mergedImageRGB = mergeImages(sceneImageRGB, objectImageRGB);
 
 %% main part
 
-cellSize = 8 ;
-hog = vl_hog(sceneImage, cellSize, 'verbose') ;
+output = sceneImageRGB;
 
-output = vl_hog('render', hog, 'verbose');
+% n scale levels
+n = 9;
+%iterate over different scale levels
+for i = 1:n
 
-imshow(output);
+    objectImage = imresize(objectImage, 0.9);
+    size(objectImage)
+
+    cellSize = 32 ;
+    hogObject = vl_hog(objectImage, cellSize, 'verbose');
+    hogScene = vl_hog(sceneImage, cellSize, 'verbose');
+
+    scores = vl_nnconv(hogScene, hogObject, []);
+
+
+    % find minimal score
+    scores(scores>min(scores(:))) = 0;
+    [row, col] = find(scores);
+    row = row.*cellSize;
+    row = row + round(size(objectImage, 1)/2);
+    col = col.*cellSize;
+    col = col + round(size(objectImage, 2)/2);
+
+    % display result
+    output = drawCorners(output,[row, col]);
+
+end
+
+%output = vl_hog('render', hogObject, 'verbose');
+
+
 
 end
 

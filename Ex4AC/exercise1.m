@@ -4,7 +4,7 @@
 readImages;
 
 
-siftMatching(shell, test_shell2);
+siftMatching(shell, test_shell1);
 
 
 
