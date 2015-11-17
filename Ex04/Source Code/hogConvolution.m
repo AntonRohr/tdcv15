@@ -1,4 +1,4 @@
-function output = hogConvolution( hog_image, hog_object )
+function output = hogConvolution( hog_image, hog_object , cellsize)
 %hog_image: the HOG of the scene
 %hog_object: the HOG of the pot
 %output, [a,b,c,d,e], from a to b rows and from c to d cols, e is the difference measurement 
@@ -24,7 +24,10 @@ for j = 1 : (image_col - object_col + 1)
         end      
     end
 end
-
-
+x = (output(3) - 1) * cellsize + 1;
+y = (output(1) - 1) * cellsize + 1;
+range_x = (output(2) - output(1)) * cellsize;
+range_y = (output(4) - output(3)) * cellsize;
+output = [x,y,range_x,range_y,output(5)];
 end
 
