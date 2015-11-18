@@ -9,6 +9,7 @@ objectImage = im2single(rgb2gray(objectImageRGB));
 sceneImage = im2single(rgb2gray(sceneImageRGB));
 
 
+
 % create big image
 %mergedImage = mergeImages(sceneImage, objectImage);
 %mergedImageRGB = mergeImages(sceneImageRGB, objectImageRGB);
@@ -21,7 +22,7 @@ cellSize = 4;
 hogScene = vl_hog(sceneImage, cellSize, 'verbose');
 
 % n scale levels
-n = 10;
+n = 7;
 
 
 
@@ -30,15 +31,17 @@ scoreMatrix = zeros(5,n);
 %iterate over different scale levels
 for i = 1:n
 
-    scaleFactor = 1.3-0.1*i;
+    scaleFactor = 1.1-0.1*i;
     objectImageResized = imresize(objectImage, scaleFactor);
     %size(objectImageResized)
 
     
     hogObject = vl_hog(objectImageResized, cellSize, 'verbose');
     
-    scores = vl_nnconv(hogScene, hogObject, [], 'Pad', 0, 'Stride', 1, 'verbose');
+    
 
+    scores = vl_nnconv(hogScene, hogObject, [], 'Pad', 0, 'Stride', 1, 'verbose');
+    
     %convOutput = hogConvolution(hogScene, hogObject);
     %a = convOutput(1);
     %b = convOutput(2);
@@ -49,6 +52,7 @@ for i = 1:n
     %col = c+d/2
 
     %imagesc(scores);
+    
 
     % find maximal score
     %scores = normalize(scores);
@@ -62,8 +66,9 @@ for i = 1:n
     bottomRightCol = topLeftCol + size(objectImageResized, 2);
 
     %normalize maxScore
-    maxScore = maxScore;% * i;% scaleFactor; %size(scores,1)*size(scores,2);
-
+    
+    maxScore = maxScore / (size(objectImageResized,1)*size(objectImageResized,2)) %scaleFactor^2; %(size(scores,1)+size(scores,2));
+    
     scoreMatrix(:,i) = [maxScore; topLeftCol; topLeftRow; bottomRightCol; bottomRightRow]
 
     %row = row.*cellSize;
