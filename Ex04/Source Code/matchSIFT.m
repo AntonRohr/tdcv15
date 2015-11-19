@@ -1,4 +1,4 @@
-function [ f1, f2, matches ] = matchSIFT( image_1, image_2 )
+function [ f1, f2, d1, d2, matches ] = matchSIFT( image_1, image_2 )
 
 %Performs SIFT feature detection in two images, then performs feature
 %matching using Euclidian distance. Only feature points are recorded,
