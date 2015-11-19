@@ -1,0 +1,26 @@
+function output = multiHarris( input, level, s0, step, af, t )
+%MULTIHARRIS 此处显示有关此函数的摘要
+%   此处显示详细说明
+input = double(input);
+output = zeros(row,col,level);
+for i = 1 : level
+    sigma_i = step^i * s0;
+    sigma_d = 0.7 * sigma_i;
+    gaussian_i = gaussian2D(sigma_i);
+    [Ix, Iy] = gaussGradient(input, sigma_d);
+    for a = 1 : row
+        for b = 1 : col
+            e1 = Ix(a, b)^2;
+            e2 = Ix(a, b) * Iy(a, b);
+            e3 = e2;
+            e4 = Iy(a ,b)^2;
+            m = [e1,e2;e3,e4];
+            second_moment = conv2(m,sigma_d^2*gaussian_i, 'same');
+            response = harris_response(second_moment, af);
+            if response > 0
+                output(a, b, i) = response;
+            end
+        end
+    end
+end
+
