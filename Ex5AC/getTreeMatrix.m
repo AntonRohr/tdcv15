@@ -33,7 +33,7 @@ leafMatrix = zeros(0,3);
 
 % iterate to the end of the list and fill the matrix
 for y = 1:leafNumber
-   leafVector = str2num(fgetl(fileID))
+   leafVector = str2num(fgetl(fileID));
    leafMatrix(end+1,:) = leafVector;
 end
 
