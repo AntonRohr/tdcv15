@@ -21,6 +21,7 @@ if exist('treeMatrices') == 0
     end
 end
 
+votings = zeros(0,4);
 
 heatmap = zeros(size(image, 1), size(image, 2));
 
@@ -36,17 +37,13 @@ for row = 1:size(image,1)
             leaf_x = leaf_x + leaf(2);
             leaf_y = leaf_y + leaf(3);
         end
-        centroid_x = round(leaf_x / 10);
-        centroid_y = round(leaf_y / 10);
+        centroid_x = round(leaf_x / 10) + col;
+        centroid_y = round(leaf_y / 10) + row;
         
-        centroid_x = centroid_x + col;
-        centroid_y = centroid_y + row;
-        
-        if centroid_x > 0 && centroid_y > 0 %&& centroid_x < size(heatmap, )
-        	heatmap(centroid_y, centroid_x) = heatmap(centroid_y, centroid_x) + 1;
-        end
-
-
+       
+        heatmap(centroid_y, centroid_x) = heatmap(centroid_y, centroid_x) + 1;
+       
+        votings(end+1,:) = [col, row, centroid_x, centroid_y];
         
     end
     % print progress
@@ -60,4 +57,27 @@ for row = 1:size(image,1)
     end
 end
 
-imagesc(heatmap);
+maxHeatmapValue = max(heatmap(:));
+tmp = heatmap;
+tmp(tmp<maxHeatmapValue) = 0;
+[row, col] = find(tmp);
+row = row(1);
+col = col(1);
+
+image = drawCorners(image, [row, col]);
+
+%imshow(image);
+
+filteredVotings = zeros(0,4);
+for i = 1:size(votings, 1)
+    
+    if (votings(i,3) == col) && (votings(i,4) == row)
+        filteredVotings(end+1,:) = votings(i,:);
+    end
+end
+
+image = drawLines(image, filteredVotings, 'blue');
+
+imshowpair(image, heatmap, 'montage');
+
+%imagesc(heatmap);
