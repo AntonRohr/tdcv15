@@ -15,10 +15,10 @@ bx = x+s;
 by = y;
 
 cx = x;
-xy = y+s;
+cy = y+s;
 
 dx = x+s;
-dy = x+s;
+dy = y+s;
 
 a = integralImage(ax, ay, z);
 b = integralImage(bx, by, z);

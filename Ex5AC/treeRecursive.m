@@ -46,7 +46,7 @@ if next_id < 1
 	leaf_id = abs(next_id);
 else
 	% plus one offset is here needed because node indexes begin with 0
-	nextNode = treeMatrix(:,node_id+1);
+	nextNode = treeMatrix(node_id+1, :);
 	leaf_id = treeRecursive(currentPosition, nextNode);
 end
 
