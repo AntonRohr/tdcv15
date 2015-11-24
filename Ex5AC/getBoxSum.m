@@ -33,9 +33,9 @@ dy = y+s;
 % 3 = red
 if z == 0
 	channel = 3; % blue 
-elseif z = 1
+elseif z == 1
 	channel = 2; % green
-elseif z = 2 || z = 3
+elseif z == 2 || z == 3
 	channel = 1; % red
 end
 
