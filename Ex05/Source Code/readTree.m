@@ -24,7 +24,7 @@ leaves = zeros(leaf_count,3);
 
 for l = 1:leaf_count
     leaf_vector = str2num(fgetl(fileID));
-    leaves(n,:) = leaf_vector;
+    leaves(l,:) = leaf_vector;
 end
 
 % Done reading
