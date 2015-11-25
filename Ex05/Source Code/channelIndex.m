@@ -3,11 +3,13 @@ function channel = channelIndex( z )
 %   0 = B, 1 = G, 2 = R, 3 = R. Why? No one knows. 
 
 switch z
-    case z == 0
+    case 0
         channel = 3;
-    case z == 1
+    case 1
         channel = 2;
-    case z == 2 || z == 3
+    case 2 
+        channel = 1;
+    case 3
         channel = 1;
     otherwise
         error('Invalid channel index!')
