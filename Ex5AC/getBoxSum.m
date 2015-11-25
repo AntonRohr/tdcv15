@@ -1,25 +1,5 @@
 function [ boxSum ] = getBoxSum ( x, y, z, s, integralImage )
 
-% todo
-
-
-
-%box 
-% a b 
-% c d
-
-ax = x-s;
-ay = y-s;
-
-bx = x+s;
-by = y-s;
-
-cx = x-s;
-cy = y+s;
-
-dx = x+s;
-dy = y+s;
-
 
 % Matlab color channels:
 % 1 = red
@@ -39,19 +19,51 @@ elseif z == 2 || z == 3
 	channel = 1; % red
 end
 
+%box 
+% a b 
+% c d
+
+ax = x-s-1;
+ay = y-s-1;
+
+dx = x+s;
+dy = y+s;
 
 
-if ax < 1 || ay < 1 || dx > size(integralImage, 2) || dy > size(integralImage, 1)
+if dy < 1 || dx < 1 || ax > size(integralImage, 2) || ay > size(integralImage, 1)
 	boxSum = 0;
 else
 
-	a = integralImage(ay, ax, channel);
-	b = integralImage(by, bx, channel);
-	c = integralImage(cy, cx, channel);
-	d = integralImage(dy, dx, channel);
+	dx = min(dx, size(integralImage, 2));
+	dy = min(dy, size(integralImage, 1));
 
+	bx = dx;
+	by = ay;
 
-	boxSum = d-c-b+a;
+	cx = ax;
+	cy = dy;
+
+	if ax < 1 && ay < 1
+		d = integralImage(dy, dx, channel);
+		boxSum = d;
+	elseif ax < 1
+		b = integralImage(by, bx, channel);
+		d = integralImage(dy, dx, channel);	
+		boxSum = d-b;
+	elseif ay < 1
+		c = integralImage(cy, cx, channel);
+		d = integralImage(dy, dx, channel);
+		boySum = d-c;
+	else 
+		a = integralImage(ay, ax, channel);
+		b = integralImage(by, bx, channel);
+		c = integralImage(cy, cx, channel);
+		d = integralImage(dy, dx, channel);
+		boxSum = d-c-b+a;
+	end
+
 end
+	
+
 
 end 
