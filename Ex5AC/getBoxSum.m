@@ -30,7 +30,7 @@ dx = x+s;
 dy = y+s;
 
 
-if dy < 1 || dx < 1 || ax > size(integralImage, 2) || ay > size(integralImage, 1)
+if dy < 1 || dx < 1 || ax >= size(integralImage, 2) || ay >= size(integralImage, 1)
 	boxSum = 0;
 else
 
@@ -53,7 +53,7 @@ else
 	elseif ay < 1
 		c = integralImage(cy, cx, channel);
 		d = integralImage(dy, dx, channel);
-		boySum = d-c;
+		boxSum = d-c;
 	else 
 		a = integralImage(ay, ax, channel);
 		b = integralImage(by, bx, channel);
