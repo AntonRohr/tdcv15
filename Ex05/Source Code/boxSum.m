@@ -20,13 +20,13 @@ if (y > size(integral_image,1))
 end
 
 %Pad by size and offset indices. 
-padded_image = padarray(integral_image, s);
+padded_image = padarray(integral_image, [s,s]);
 x = x + s;
 y = y + s;
 
 %Return the sum
-box_sum = padded_image(y+s ,x+s ,channel) - padded_image( x-s ,y+s ,channel) ... 
-            - padded_image(x+s, x-s ,channel) + padded_image(x-s, y-s ,channel);
+box_sum = padded_image(y+s ,x+s ,channel) - padded_image( y+s, x-s ,channel) ... 
+            - padded_image(y-s, x+s ,channel) + padded_image(y-s, x-s ,channel);
 
 end
 
