@@ -3,8 +3,8 @@
 image = imread('2007_000032.jpg');
 
 
-if exist('integralImage') == 0
-    integralImage = createIntegralImage(image);
+if exist('integrals') == 0
+    integrals = createIntegralImage(image);
 end
 
 %mesh(integralImage(:,:,1));
@@ -31,7 +31,7 @@ for row = 1:size(image,1)
         leaf_x = 0;
         leaf_y = 0;
         for tree_id = 1:10
-            leaf_id = treeRecursive([col, row], treeMatrices{tree_id}(1,:), integralImage, treeMatrices{tree_id});
+            leaf_id = treeRecursive([col, row], treeMatrices{tree_id}(1,:), integrals, treeMatrices{tree_id});
             leaf = leafMatrices{tree_id}(leaf_id+1,:);
              
             leaf_x = leaf_x + leaf(2);
