@@ -14,8 +14,8 @@ for i = 1 : 10
     sum_py = sum_py + py;
 end
 
-vote_x = floor(sum_px/10);
-vote_y = floor(sum_py/10);
+vote_x = ceil(sum_px/10);
+vote_y = ceil(sum_py/10);
 
 end
 
