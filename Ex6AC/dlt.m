@@ -31,7 +31,7 @@ for i = 1:(size(x,2))
     
     % three zeros needed because we always insert 3x1 vectors when doing the
     % calculations
-    A_i = [0, 0, 0,  (-wp_i*x_norm') , (yp_i*x_norm') ; (w_i*x_norm'),  0, 0, 0,  (-xp_i*x_norm')]
+    A_i = [0, 0, 0,  (-wp_i*x_norm(:,i)') , (yp_i*x_norm(:,i)') ; (wp_i*x_norm(:,i)'),  0, 0, 0,  (-xp_i*x_norm(:,i)')]
     
     % accumulate in A
     A = [A ; A_i];
