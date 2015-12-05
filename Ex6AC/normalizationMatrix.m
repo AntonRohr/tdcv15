@@ -4,7 +4,7 @@ function TransformMatrix = normalizationMatrix(points)
 
 meanu = mean(points(1,:));
 meanv = mean(points(2,:));
-sum = 0
+sum = 0;
 
 for u = 1:size(points,2)
         sum = sum + sqrt((points(1,u) - meanu)^2 + (points(2,u) - meanv)^2);

@@ -1,4 +1,4 @@
-function output = dlt(x,xp)
+function H = dlt(x,xp)
 
 % x and xp is a matrix containing the corresponding points 
 % (in other words: every column is a point)
@@ -6,8 +6,8 @@ function output = dlt(x,xp)
 %% normalize points using U and T (centroid origin, average dist. sqrt(2))
 
 % Put x and xp in homogenous coordinates
-x = [ x ; ones(1,size(x,2)) ];
-xp = [xp ; ones(1,size(xp,2)) ];
+x = [ x ; ones(1,size(x,2)) ]
+xp = [xp ; ones(1,size(xp,2)) ]
 
 U = normalizationMatrix(x);
 T = normalizationMatrix(xp);
@@ -25,16 +25,16 @@ A = [];
 % iterate over all the points to compute the individual A_i
 for i = 1:(size(x,2))
     % get the values from xp
-    wp_i = xp(3,i);
-    yp_i = xp(2,i);
-    xp_i = xp(1,i);
+    wp_i = xp_norm(3,i);
+    yp_i = xp_norm(2,i);
+    xp_i = xp_norm(1,i);
     
     % three zeros needed because we always insert 3x1 vectors when doing the
     % calculations
-    A_i = [0 0 0  -wp_i*x'  yp_i*x' ; w_i*x'  0 0 0  -xp_i*x']
+    A_i = [0, 0, 0,  (-wp_i*x_norm') , (yp_i*x_norm') ; (w_i*x_norm'),  0, 0, 0,  (-xp_i*x_norm')]
     
     % accumulate in A
-    A = [A ; A_i]
+    A = [A ; A_i];
 end
 
 % compute SVD of A (don't know how to use this for solving the equation
