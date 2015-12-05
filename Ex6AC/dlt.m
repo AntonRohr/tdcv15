@@ -31,16 +31,23 @@ for i = 1:(size(x,2))
     
     % three zeros needed because we always insert 3x1 vectors when doing the
     % calculations
-    A_i = [0, 0, 0,  (-wp_i*x_norm(:,i)') , (yp_i*x_norm(:,i)') ; (wp_i*x_norm(:,i)'),  0, 0, 0,  (-xp_i*x_norm(:,i)')]
+    A_i = [0, 0, 0,  (-wp_i*x_norm(:,i)') , (yp_i*x_norm(:,i)') ; (wp_i*x_norm(:,i)'),  0, 0, 0,  (-xp_i*x_norm(:,i)')];
     
     % accumulate in A
-    A = [A ; A_i];
+    A = [A ; A_i]
 end
 
 % compute SVD of A (don't know how to use this for solving the equation
 % yet)
 % S == U, but this is already taken. consider renaming U above if we need S
-[S,D,V] = svd(A);
+[S,D,V] = svd(A)
 
+% since last 9th value is the smallest singular value, take 9th row of V
+% (singular vectors)
+ h = V(:,9);
+ H = reshape( h, 3, 3 )'
+
+% taken from the pdf. Get 4x3 matrix containing the points
+points = inv(T) * H * U * x
 
 end
