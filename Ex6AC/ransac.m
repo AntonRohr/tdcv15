@@ -1,10 +1,10 @@
 % read in the images
-boxImageRGB = imread('box.pgm');
-sceneImageRGB = imread('scene.pgm');
+boxImageGray = imread('box.pgm');
+sceneImageGray = imread('scene.pgm');
 
 % preprocess
-boxImage = im2single(boxImageRGB);
-sceneImage = im2single(sceneImageRGB);
+boxImage = im2single(boxImageGray);
+sceneImage = im2single(sceneImageGray);
 
 % find matches with SIFT
 % compute sift features and descriptors 
@@ -29,3 +29,17 @@ sceneSamples = matchedFeatSc(:,sampleIndices);
 
 % compute H
 H = dlt(objectSamples,sceneSamples);
+
+
+homographyMatches = H * [ matchedFeatOb ; ones(1,size(matchedFeatOb,2)) ]
+
+homographyMatches = [ homographyMatches(1,:) ./ homographyMatches(3,:) ; homographyMatches(2,:) ./ homographyMatches(3,:)] %; homographyMatches(3,:) ./ homographyMatches(3,:) ]
+
+diff = homographyMatches - matchedFeatSc;
+
+dist = diff .* diff;
+
+norm = sqrt(dist(1,:) + dist(2,:));
+
+t = 10;
+result = find(norm<t)
