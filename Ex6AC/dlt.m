@@ -49,9 +49,9 @@ end
 % S == U, but this is already taken. consider renaming U above if we need S
 [S,D,V] = svd(A)
 
-% since last 9th value is the smallest singular value, take 9th column of V
+% since last value is the smallest singular value, take last column of V
 % (singular vectors)
- h = V(:,9);
+ h = V(:,size(V,2));
  
  % use reshape to obtain 3x3 matrix
  H = reshape( h, 3, 3 )';
