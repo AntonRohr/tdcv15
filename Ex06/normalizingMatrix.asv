@@ -1,0 +1,15 @@
+function transform = normalizingMatrix( points )
+%NORMALIZINGMATRIX Takes an array of points, with x values in row 1, y values in row 2 
+    
+    mean_x = mean(points(1,:));
+    mean_y = mean(points(2,:));
+    
+    sum_sq = 0;
+    %Do the sum of squares
+    
+    for u = 1:size(points,2)
+        sum = sum + sqrt((points(1,u) - meanu)^2 + (points(2,u) - meanv)^2);
+    end
+
+end
+

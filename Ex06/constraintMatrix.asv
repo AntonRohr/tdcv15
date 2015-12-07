@@ -1,0 +1,9 @@
+function constraintMatrix = constraintMatrix( image_point, warped_point )
+%CONSTRAINTMATRIX returns the constraint matrix given a point
+%correspondence in homogeneous coordinates.
+
+constraintMatrix = [ 0 0 0 -w*(image_point') y*(image_point)'; ...
+    w*(image
+
+end
+
