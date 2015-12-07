@@ -41,15 +41,15 @@ for i = 1:(size(x,2))
     A_i = [0, 0, 0,  (-wp_i*x_norm(:,i)') , (yp_i*x_norm(:,i)') ; (wp_i*x_norm(:,i)'),  0, 0, 0,  (-xp_i*x_norm(:,i)')];
     
     % accumulate in A
-    A = [A ; A_i];
+    A = [A ; A_i]
 end
 
 % compute SVD of A (don't know how to use this for solving the equation
 % yet)
 % S == U, but this is already taken. consider renaming U above if we need S
-[S,D,V] = svd(A);
+[S,D,V] = svd(A)
 
-% since last 9th value is the smallest singular value, take 9th row of V
+% since last 9th value is the smallest singular value, take 9th column of V
 % (singular vectors)
  h = V(:,9);
  
@@ -61,17 +61,13 @@ end
  % points = H * x_norm
  
 % this step just divides everything by (3,3) entry
- % H = H / H(3,3)
+% H = H / H(3,3)
 
 % taken from the pdf. Get 4x3 matrix containing the points
 % (also needs division by the third component to be "correct")
- points = inv(T) * H * U * x
+% points = inv(T) * H * U * x
 
- 
- 
- 
-% taken from the book, but values seem strange
-% H = inv(T) * H * U 
+ H = inv(T) * H * U 
 % H = H / H(3,3)
 % points = H * x
 end
