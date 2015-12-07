@@ -13,15 +13,15 @@ end
 %% normalize points using U and T (centroid origin, average dist. sqrt(2))
 
 % Put x and xp in homogenous coordinates
-x = [ x ; ones(1,size(x,2)) ]
-xp = [xp ; ones(1,size(xp,2)) ]
+x = [ x ; ones(1,size(x,2)) ];
+xp = [xp ; ones(1,size(xp,2)) ];
 
 U = normalizationMatrix(x);
 T = normalizationMatrix(xp);
 
 % Transform the vectors with their transformation matrix
-x_norm = U * x
-xp_norm = T * xp
+x_norm = U * x;
+xp_norm = T * xp;
 
 
 %% Compute A_i
@@ -41,13 +41,13 @@ for i = 1:(size(x,2))
     A_i = [0, 0, 0,  (-wp_i*x_norm(:,i)') , (yp_i*x_norm(:,i)') ; (wp_i*x_norm(:,i)'),  0, 0, 0,  (-xp_i*x_norm(:,i)')];
     
     % accumulate in A
-    A = [A ; A_i]
+    A = [A ; A_i];
 end
 
 % compute SVD of A (don't know how to use this for solving the equation
 % yet)
 % S == U, but this is already taken. consider renaming U above if we need S
-[S,D,V] = svd(A)
+[S,D,V] = svd(A);
 
 % since last value is the smallest singular value, take last column of V
 % (singular vectors)
@@ -67,7 +67,7 @@ end
 % (also needs division by the third component to be "correct")
 % points = inv(T) * H * U * x
 
- H = inv(T) * H * U 
+ H = inv(T) * H * U;
 % H = H / H(3,3)
 % points = H * x
 end
