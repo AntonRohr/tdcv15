@@ -21,7 +21,9 @@ image1T=imtransform(image1,H,'XData',xDataOut,'YData',yDataOut, 'XYScale', 1);
 image2T=imtransform(image2,maketform('affine',eye(3)),'XData',xDataOut,'YData',yDataOut, 'XYScale', 1);
 
 
-stitched = image2T/2 + image1T/2;
+%stitched = image2T/2 + image1T/2;
+
+stitched = blendImages(image2T, image1T);
 
 
 end
