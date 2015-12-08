@@ -55,11 +55,7 @@ end
  
  % use reshape to obtain 3x3 matrix
  H = reshape( h, 3, 3 )';
- 
-% this should be xp_norm (but we still need to divide each point by the third
-% components..)
- % points = H * x_norm
- 
+
 % this step just divides everything by (3,3) entry
 % H = H / H(3,3)
 
@@ -67,7 +63,6 @@ end
 % (also needs division by the third component to be "correct")
 % points = inv(T) * H * U * x
 
- H = inv(T) * H * U;
-% H = H / H(3,3)
-% points = H * x
+H = inv(T) * H * U;
+
 end
