@@ -12,13 +12,6 @@ if(n > num_image_points)
     error('n should not be larger than the number of image points');
 end
 
-%containers of the 
-% final_points_x_ori_cell = {};
-% final_points_y_ori_cell = {};
-% final_points_x_warped_cell = {};
-% final_points_y_warped_cell = {};
-% final_points_size = {};
-
 %record the final choice of the points
 final_points_ori = [];
 final_points_warped = [];
@@ -48,29 +41,13 @@ while(count_N <= N)
             temp_points_y_warped(size_T) = warped_points(2,i);
         end
     end
-    
     %if the num of inliers larger than T, break
     if (size_T >= T )
         final_points_ori = [temp_points_x_ori;temp_points_y_ori];
         final_points_warped = [temp_points_x_warped;temp_points_y_warped];
-%         final_points_x_ori_cell = {};
-%         final_points_y_ori_cell = {};
-%         final_points_x_warped_cell = {};
-%         final_points_y_warped_cell = {};
-%         final_points_size = {};
-%         final_points_x_ori_cell{1} = final_points_x_ori;
-%         final_points_y_ori_cell{1} = final_points_y_ori;
-%         final_points_x_warped_cell{1} = final_points_x_warped;
-%         final_points_y_warped_cell{1} = final_points_y_warped;
-%         final_points_size{1} = size_T;
         break;
     %otherwise just save the ones with largest num of inliers
     elseif (size_T > max_size_T)
-%         final_points_x_ori_cell{count_N} = final_points_x_ori;
-%         final_points_y_ori_cell{count_N} = final_points_y_ori;
-%         final_points_x_warped_cell{count_N} = final_points_x_warped;
-%         final_points_y_warped_cell{count_N} = final_points_y_warped;
-%         final_points_size{count_N} = size_T;
         final_points_ori = [temp_points_x_ori;temp_points_y_ori];
         final_points_warped = [temp_points_x_warped;temp_points_y_warped];
         max_size_T = size_T;
@@ -78,15 +55,6 @@ while(count_N <= N)
     
     count_N = count_N+1; 
 end
-
-% if(size(final_points_size,2) == 1)
-%     final_points_ori = [final_points_x_ori_cell{1};final_points_y_ori_cell{1}];
-%     final_points_warped = [final_points_x_warped_cell{1};final_points_y_warped_cell{1}];
-% else
-%     max_col = getMaxInCell(final_points_size);
-%     final_points_ori = [final_points_x_ori_cell{max_col};final_points_y_ori_cell{max_col}];
-%     final_points_warped = [final_points_x_warped_cell{max_col};final_points_y_warped_cell{max_col}];
-% end
 
 homography = DLT(final_points_ori, final_points_warped);
 
