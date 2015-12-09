@@ -9,7 +9,7 @@ count_N = 1;
 num_image_points = size(image_points, 2);
 
 if(n > num_image_points)
-    error('t should not be larger than the number of image points');
+    error('n should not be larger than the number of image points');
 end
 
 %containers of the 
