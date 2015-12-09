@@ -8,7 +8,7 @@ lines = int32(list);
 RGB = repmat(grayImage,[1,1,3]);
 RGBoutput = insertShape(RGB, 'Line', lines, 'LineWidth', 1, 'Color', color);
 
-%output = insertShape(RGBimage, 'Line', lines, 'Color', color);
+%RGBoutput = insertShape(RGB, 'Line', lines, 'Color', color);
 
 end
 

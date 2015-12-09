@@ -44,25 +44,17 @@ for i = 1:(size(x,2))
     A = [A ; A_i];
 end
 
-% compute SVD of A (don't know how to use this for solving the equation
-% yet)
-% S == U, but this is already taken. consider renaming U above if we need S
+% compute SVD of A
 [S,D,V] = svd(A);
 
 % since last value is the smallest singular value, take last column of V
 % (singular vectors)
  h = V(:,size(V,2));
  
- % use reshape to obtain 3x3 matrix
+% use reshape to obtain 3x3 matrix
  H = reshape( h, 3, 3 )';
 
-% this step just divides everything by (3,3) entry
-% H = H / H(3,3)
-
-% taken from the pdf. Get 4x3 matrix containing the points
-% (also needs division by the third component to be "correct")
-% points = inv(T) * H * U * x
-
-H = inv(T) * H * U;
+% compute the denormalized homography matrix
+ H = inv(T) * H * U;
 
 end
