@@ -5,7 +5,7 @@ function projected = reproject( H, original )
 homo_original = [original;ones(1, size(original,2))];
 
 homo_projected = H*homo_original;
-projected = zeroes(2,size(homo_original,2));
+projected = zeros(2,size(homo_original,2));
 
 %Wish I knew how to do this vectorised 
 for i = 1:size(homo_projected,2)

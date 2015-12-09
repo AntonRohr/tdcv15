@@ -7,7 +7,7 @@ y = warped_point(2);
 w = warped_point(3);
 
 constraintMatrix = [ 0 0 0 -w*(image_point') y*(image_point)'; ...
-    w*(image_point') 0 0 0 -x*(image_point')]
+    w*(image_point') 0 0 0 -x*(image_point')];
 
 end
 
