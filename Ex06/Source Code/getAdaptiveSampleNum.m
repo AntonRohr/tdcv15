@@ -1,6 +1,6 @@
 function sample_num = getAdaptiveSampleNum( image_points, warped_points, t )
 
-p = 0.99
+p = 0.99;
 N = 1;
 n = 0;
 total_points_num = size(image_points,2);
