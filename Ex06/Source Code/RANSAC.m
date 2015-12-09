@@ -1,4 +1,4 @@
-function homography = RANSAC( image_points, warped_points, n, t, T, N )
+function [homography, final_points_ori, final_points_warped] = RANSAC( image_points, warped_points, n, t, T, N )
 %RANSAC return a best homography given the parameters
 %n: number of data points selected
 %t: distance threshold
