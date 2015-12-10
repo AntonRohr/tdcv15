@@ -1,3 +1,5 @@
+%% initialization for first image (0000.png)
+
 % initialize R0 and T0
 R0 = eye(3);
 T0 = 0;
@@ -23,14 +25,16 @@ m0 = [ feat0(1,:) ; feat0(2,:) ; ones(1,size(feat0,2)) ];
 M0 = inv(A) * m0;
 
 
-%_________________________________Loading exercise 2
+%% _________________________________Loading exercise 2 (the comparison of other stuff)
 
 % get the remaining images and save them to a cellArray
 % e.g. image{1} is '0001.png'
 images = readImages();
 
+inliers = cell(44,2);
+
 %for i = 1:44
-for i = 2:2
+for i = 1:44
     tic
     % get the current image and do conversion for feature extraction
     currentImageRGB = images{i};    
@@ -42,18 +46,29 @@ for i = 2:2
     [matchesi, scoresi] = vl_ubcmatch(desc0, desci, matchThreshold); 
     
     % filter out matched features (without orientation/scale)
-    matchedFeat1 = feat0(1:2,matches(1,:));
-    matchedFeati = feati(1:2,matches(2,:));
+    matchedFeat0 = feat0(1:2,matchesi(1,:));
+    matchedFeati = feati(1:2,matchesi(2,:));
     
-    % get Homography
-
-    [tform,inlyingFeat0,inlyingFeati] = estimateGeometricTransform(matchedFeat1',matchedFeati','projective');
-
+    % get Homography and inliers
+    size(matchesi)
+    %[tform,inlyingFeat0,inlyingFeati] = estimateGeometricTransform(matchedFeat1',matchedFeati','projective');
+    
+    % get homography and inliers our way
+    [inlierIndices, H] = ransacAdapted(matchedFeat0, matchedFeati, 2,4);
+    inlyingFeat0 = matchedFeat0(:,inlierIndices);
+    inlyingFeati = matchedFeati(:,inlierIndices);
+    
     % visualizing features
-    output = drawMatches(I0RGB, currentImageRGB, inlyingFeat0', inlyingFeati');
+    output = drawMatches(I0RGB, currentImageRGB, inlyingFeat0, inlyingFeati);
     imshow(output);
     
     %TODO: save inlyingFeatures
+    
+    inliers{i}{1} = inlyingFeat0;
+    inliers{i}{2} = inlyingFeati;
+    
+    
+    imwrite(output,['result_sequence/img_', sprintf('%03d',i), '.png']);
     toc
 end
 
