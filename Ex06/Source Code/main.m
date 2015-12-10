@@ -1,5 +1,5 @@
 %Initialise the vl library.
-run('C:\Users\Anton Troynikov\Documents\MATLAB\vlfeat-0.9.20-bin\vlfeat-0.9.20\toolbox\vl_setup.m')
+%run('C:\Users\Anton Troynikov\Documents\MATLAB\vlfeat-0.9.20-bin\vlfeat-0.9.20\toolbox\vl_setup.m')
 
 %Load the images
 box = imread('box.pgm');
@@ -12,7 +12,7 @@ scene = imread('scene.pgm');
 plotMatches(box, scene, matches_box, matches_scene);
 
 %Compute homography via RANSAC
-n = 10; t = 1; T = 5; N = 10;
+n = 10; t = 1; T = 40; N = 100;
 %[H, inliers_box, inliers_scene] = RANSAC(matches_box, matches_scene, n, t, T, N);
 [H, inliers_box, inliers_scene] = adaptiveRANSAC(matches_box, matches_scene, t, T, N);
 plotMatches(box, scene, inliers_box, inliers_scene);
