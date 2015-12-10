@@ -1,13 +1,12 @@
 function sample_num = getAdaptiveSampleNum( image_points, warped_points, t )
 
 p = 0.99;
-N = 1;
-n = 0;
+N = 5;
+n = 4;
 total_points_num = size(image_points,2);
 
 while(N > n)
     size_T = 0;
-    n = 2;
     [selected_samples, selected_col]= randomSamples(image_points, n);
     warped_points_t = warped_points';
     selected_warped = warped_points_t(selected_col,:);

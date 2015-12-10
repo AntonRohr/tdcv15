@@ -13,8 +13,8 @@ plotMatches(box, scene, matches_box, matches_scene);
 
 %Compute homography via RANSAC
 n = 10; t = 1; T = 5; N = 10;
-[H, inliers_box, inliers_scene] = RANSAC(matches_box, matches_scene, n, t, T, N);
-
+%[H, inliers_box, inliers_scene] = RANSAC(matches_box, matches_scene, n, t, T, N);
+[H, inliers_box, inliers_scene] = adaptiveRANSAC(matches_box, matches_scene, t, T, N);
 plotMatches(box, scene, inliers_box, inliers_scene);
 title([num2str(size(inliers_box,2)) ' of ' num2str(size(matches_box,2)) ' inliers']);
 
@@ -49,4 +49,4 @@ x_warped_scene = translation(1);
 overlapped_scene = overlapImage(warped_scene, box, x_warped_scene, y_warped_scene);
 
 figure;
-imagesc(overlapped_scene);
+imagesc(overlapped_scene); colormap gray;
