@@ -25,6 +25,15 @@ M0 = inv(A) * m0;
 
 %_________________________________Loading exercise 2
 
+% get the remaining images and save them to cellArray
+% e.g. image{1} is '0001.png'
+images = readImages();
+
+for i = 1:44
+    currentImage = images{i};    
+    
+end
+
 I1RGB = imread('img_sequence/0001.png');
 I1 = im2single(rgb2gray(I1RGB));
 
