@@ -32,6 +32,9 @@ M0 = inv(A) * m0;
 images = readImages();
 
 inliers = cell(44,2);
+savedRT = zeros(44, 5);
+
+savedCam = zeros(44, 3);
 
 %for i = 1:44
 for i = 1:44
@@ -50,7 +53,7 @@ for i = 1:44
     matchedFeati = feati(1:2,matchesi(2,:));
     
     % get Homography and inliers
-    size(matchesi)
+    % size(matchesi)
     %[tform,inlyingFeat0,inlyingFeati] = estimateGeometricTransform(matchedFeat1',matchedFeati','projective');
     
     % get homography and inliers our way
@@ -58,19 +61,41 @@ for i = 1:44
     inlyingFeat0 = matchedFeat0(:,inlierIndices);
     inlyingFeati = matchedFeati(:,inlierIndices);
     
+    inlyingM0 = M0(:, inlierIndices);
+    
     % visualizing features
     output = drawMatches(I0RGB, currentImageRGB, inlyingFeat0, inlyingFeati);
-    imshow(output);
+    %imshow(output);
     
-    %TODO: save inlyingFeatures
-    
-    inliers{i}{1} = inlyingFeat0;
+    % save inlyingFeatures
+    inliers{i}{1} = inlyingM0;
     inliers{i}{2} = inlyingFeati;
     
     
     imwrite(output,['result_sequence/img_', sprintf('%03d',i), '.png']);
     toc
+
+    % x = [ux, uy, uz, t1, t2]
+    fExponential = @(x) energyFunction( x, A, inlyingM0, inlyingFeati); 
+    x = fminsearch(fExponential, [0,0,0,0,0]);
+    savedRT(i,:) = x;
+    
+    % obtain R using Rodrigues formula
+    w_hat = [0, -x(3), x(2) ; x(3) , 0 -x(1) ; -x(2), x(1), 0];
+    length_w = norm([x(1), x(2), x(3)]);    
+    Ri = eye(3) + w_hat / length_w * sin(length_w) + (w_hat^2)/(length_w^2) * (1-cos(length_w));
+    
+    Ti = [x(4);x(5);1];
+    
+    savedCam(i,:) = -Ri'*Ti
+    
 end
+
+
+
+
+
+
 
 %I1RGB = imread('img_sequence/0001.png');
 %I1 = im2single(rgb2gray(I1RGB));
