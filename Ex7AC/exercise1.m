@@ -46,7 +46,7 @@ for i = 1:44
         
     [feati, desci] = vl_sift(currentImage);
     
-    matchThreshold = 1;
+    matchThreshold = 2.5;
     [matchesi, scoresi] = vl_ubcmatch(desc0, desci, matchThreshold); 
     
     % filter out matched features (without orientation/scale)
@@ -55,14 +55,17 @@ for i = 1:44
     
     % get Homography and inliers
     % size(matchesi)
-    %[tform,inlyingFeat0,inlyingFeati] = estimateGeometricTransform(matchedFeat1',matchedFeati','projective');
+    [tform,inlyingFeat0,inlyingFeati] = estimateGeometricTransform(matchedFeat0',matchedFeati','projective', 'MaxNumTrials', 10000);
     
     % get homography and inliers our way
-    [inlierIndices, H] = ransacAdapted(matchedFeat0, matchedFeati, 2,4);
-    inlyingFeat0 = matchedFeat0(:,inlierIndices);
-    inlyingFeati = matchedFeati(:,inlierIndices);
+    %[inlierIndices, H] = ransacAdapted(matchedFeat0, matchedFeati, 1,4);
+    %inlyingFeat0 = matchedFeat0(:,inlierIndices);
+    %inlyingFeati = matchedFeati(:,inlierIndices);
     
-    inlyingM0 = M0(:, inlierIndices);
+    %inlyingM0 = M0(:, inlierIndices);
+    inlyingFeat0 = inlyingFeat0';
+    inlyingFeati = inlyingFeati';
+    inlyingM0 = inv(A) * [inlyingFeat0; ones(1,size(inlyingFeat0,2)) ];
     
     % visualizing features
     output = drawMatches(I0RGB, currentImageRGB, inlyingFeat0, inlyingFeati);

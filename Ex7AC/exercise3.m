@@ -30,8 +30,8 @@ for i = 1:44
     Ti = [x(4);x(5);x(6)];
     
     
-    
-    %savedCam(i,:) = Ti;
     savedCam(i,:) = -Ri'*Ti;
     
 end
+
+plot3(savedCam(:,1), savedCam(:,2), savedCam(:,3));
