@@ -37,6 +37,8 @@ x_warped_box = translation(1);
 %Create the overlapped scene
 overlapped_box = overlapImage(scene, warped_box, x_warped_box, y_warped_box);
 
+
+
 %Compute the translation vector of the original box into the warped scene
 K = scene_to_box.T';
 translation = -K./K(3,3);
