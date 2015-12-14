@@ -1,8 +1,9 @@
 %% initialization for first image (0000.png)
 
+
 % initialize R0 and T0
 R0 = eye(3);
-T0 = 0;
+T0 = [0; 0; 0];
 
 % initialize intrinsic camera matrix
 A = [472.3 0.64 329.0 ; 0 471.0 268.3 ; 0 0 1];
@@ -32,11 +33,11 @@ M0 = inv(A) * m0;
 images = readImages();
 
 inliers = cell(44,2);
-savedRT = zeros(44, 5);
+
 
 savedCam = zeros(44, 3);
 
-%for i = 1:44
+
 for i = 1:44
     tic
     % get the current image and do conversion for feature extraction
@@ -74,20 +75,6 @@ for i = 1:44
     
     imwrite(output,['result_sequence/img_', sprintf('%03d',i), '.png']);
     toc
-
-    % x = [ux, uy, uz, t1, t2]
-    fExponential = @(x) energyFunction( x, A, inlyingM0, inlyingFeati); 
-    x = fminsearch(fExponential, [0,0,0,0,0]);
-    savedRT(i,:) = x;
-    
-    % obtain R using Rodrigues formula
-    w_hat = [0, -x(3), x(2) ; x(3) , 0 -x(1) ; -x(2), x(1), 0];
-    length_w = norm([x(1), x(2), x(3)]);    
-    Ri = eye(3) + w_hat / length_w * sin(length_w) + (w_hat^2)/(length_w^2) * (1-cos(length_w));
-    
-    Ti = [x(4);x(5);1];
-    
-    savedCam(i,:) = -Ri'*Ti
     
 end
 

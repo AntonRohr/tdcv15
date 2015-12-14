@@ -7,7 +7,7 @@ w_hat = [0, -x(3), x(2) ; x(3) , 0 -x(1) ; -x(2), x(1), 0];
 length_w = norm([x(1), x(2), x(3)]);    
 Rt = eye(3) + w_hat / length_w * sin(length_w) + (w_hat^2)/(length_w^2) * (1-cos(length_w));
 
-Tt = [x(4); x(5); 1];
+Tt = [x(4); x(5); x(6)];
 
 e = 0;
 for i = 1 : size(Mi0,2) 
