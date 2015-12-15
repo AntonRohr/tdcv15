@@ -27,7 +27,7 @@ for i = 2:size(sequence,3)
     %Get point correspondences
     [m_0, m_i] = match_points(f_0, features{i}, matches{i});
     %Get inliers and a homography
-    [homography, inliers_origin, inliers_target] = adaptiveRANSAC(m_0, m_i, 3, 40, 50);
+    [homography, inliers_origin, inliers_target] = adaptiveRANSAC(m_0, m_i, 2, 40, 50);
     %Store them
     homography_i{i} = homography;
     inliers_0{i} = inliers_origin;
