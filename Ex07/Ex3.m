@@ -1,5 +1,5 @@
 RTs = zeros(45, 6);
-CamPose = {};
+
 
 for i = 2:45
     energyfunc = @(R) energy( R, A, M_0s{i}, inliers_i{i}); 
@@ -22,6 +22,8 @@ for i = 2:45
     Ti = [result(4);result(5);result(6)];
     
     
-    camPose{i} = -Rot'*Ti;
+    CamPose(i,:) = -Rot'*Ti;
     
 end
+
+plot3(CamPose(:,1), CamPose(:,2), CamPose(:,3));
