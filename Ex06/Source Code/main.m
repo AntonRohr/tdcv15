@@ -24,6 +24,7 @@ scene_to_box = invert(box_to_scene);
 
 %Warp the two images as needed
 warped_scene = imwarp(scene, scene_to_box);
+imagesc(warped_scene);colormap gray;
 warped_box = imwarp(box, box_to_scene);
 
 %Compute the translation vector of the warped box in the original scene
