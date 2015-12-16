@@ -17,7 +17,7 @@ for i = 2:size(sequence,3)
     features{i} = feature;
     
     %Perform matching
-    [match, score] = vl_ubcmatch(f_0,features{i});
+    [match, score] = vl_ubcmatch(d_0,descriptor);
     matches{i} = match;
 end
 
