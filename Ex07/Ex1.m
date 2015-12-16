@@ -1,8 +1,8 @@
 %Initialise the vl library.
-run('C:\Users\Anton Troynikov\Documents\MATLAB\vlfeat-0.9.20-bin\vlfeat-0.9.20\toolbox\vl_setup.m')
+%run('C:\Users\Anton Troynikov\Documents\MATLAB\vlfeat-0.9.20-bin\vlfeat-0.9.20\toolbox\vl_setup.m')
 
 %Read the first image
-i_0 = imread('img_sequence\0000.png');
+i_0 = imread('img_sequence/0000.png');
 
 %Initialise intrinsics
 A = [472.3 0.64 329.0; 0 471.0 268.3; 0 0 1];
