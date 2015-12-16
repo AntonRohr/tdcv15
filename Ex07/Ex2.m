@@ -31,5 +31,6 @@ for i = 2:size(sequence,3)
     %Store them
     homography_i{i} = homography;
     inliers_0{i} = inliers_origin;
+    M_0s{i} = A \ [inliers_0{i};ones(1,size(inliers_0{i},2))];
     inliers_i{i} = inliers_target;
 end
