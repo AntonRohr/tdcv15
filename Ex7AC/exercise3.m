@@ -60,6 +60,8 @@ end
 
 subplot(1,2,1);
 plot3(savedCam_exp(:,1), savedCam_exp(:,2), savedCam_exp(:,3));
+title('Exponential Map');
 
 subplot(1,2,2);
 plot3(savedCam_euler(:,1), savedCam_euler(:,2), savedCam_euler(:,3));
+title('Euler Angles');
