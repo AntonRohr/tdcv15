@@ -2,6 +2,7 @@ data1 = load('data1.mat');
 data2 = load('data2.mat');
 data3 = load('data3.mat');
 
+classifiert = load('Classifiers.mat');
 
 faceA = rgb2gray(imread('faceA.jpg'));
 faceB = rgb2gray(imread('faceB.jpg'));
