@@ -1,6 +1,6 @@
 RTs = zeros(45, 6);
 
-
+%% Optimize the parameters of each transform matrix across frames
 for i = 2:45
     energyfunc = @(R) energy( R, A, M_0s{i}, inliers_i{i}); 
     if (i == 2)
