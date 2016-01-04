@@ -7,3 +7,11 @@ faceC = double(rgb2gray(imread('data/faceC.jpg')));
 int_A = getIntegralImage(faceA);
 int_B = getIntegralImage(faceB);
 int_C = getIntegralImage(faceC);
+
+%% Read in the weak classifiers and features
+data = load('data/Classifiers.mat');
+classifiers = data.classifiers;
+
+for i = 1 : size(classifiers,1)
+    classifiers(1,:)
+end
