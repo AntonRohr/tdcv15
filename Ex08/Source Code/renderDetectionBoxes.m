@@ -12,5 +12,7 @@ for i = 1:size(detected,2)
     rectangle('position',[x y 19 19], 'edgecolor','r', 'LineWidth',2);
 end
 
+hold off;
+
 end
 

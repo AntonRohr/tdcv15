@@ -18,7 +18,8 @@ integral_image(1,1) = input_image(1,1);
             if (i == 1)
                 integral_image(j, i) = input_image(j,i) + integral_image(j-1,i); 
             else
-                integral_image(j, i) = input_image(j,i) + integral_image(j,i-1) + integral_image(j-1,i) - integral_image(j-1,i-1);
+                integral_image(j, i) = input_image(j,i) + integral_image(j,i-1) + ...
+                integral_image(j-1,i) - integral_image(j-1,i-1);
             end
         end
     end

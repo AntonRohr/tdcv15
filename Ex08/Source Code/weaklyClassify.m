@@ -12,28 +12,28 @@ R = params(10); alpha = params(11);
 %% Extract the feature conditional on the type
 
 if(class_type == 1)
-    r1 = extractFeature(r,c,winWidth/2 -1, winHeight -1, int_image);
-    r2 = extractFeature(r, c+winWidth/2, winWidth/2 -1, winHeight -1, int_image);
+    r1 = extractFeature(r,c,(winWidth/2) -1, winHeight -1, int_image);
+    r2 = extractFeature(r, c+(winWidth/2), (winWidth/2) -1, winHeight -1, int_image);
     feature_response = r1 + r2;
 elseif(class_type == 2)
     r1 = extractFeature(r,c, winWidth -1, winHeight/2 -1, int_image);
-    r2 = extractFeature(r + winHeight/2, c, winWidth -1, winHeight/2 - 1, int_image);
+    r2 = extractFeature(r + (winHeight/2), c, winWidth -1, (winHeight/2) - 1, int_image);
     feature_response = r1 + r2;
 elseif(class_type == 3)
-    r1 = extractFeature(r, c, winWidth/3 - 1, winHeight -1, int_image);
-    r2 = extractFeature(r, c + winWidth/3, winWidth/3 -1, winHeight -1, int_image);
-    r3 = extractFeature(r, c + 2*winWidth /3, winWidth/3 -1, winHeight -1, int_image);
+    r1 = extractFeature(r, c, (winWidth/3) - 1, winHeight -1, int_image);
+    r2 = extractFeature(r, c + (winWidth/3), (winWidth/3) -1, winHeight -1, int_image);
+    r3 = extractFeature(r, c + ((2*winWidth)/3), (winWidth/3) -1, winHeight -1, int_image);
     feature_response = r1 - r2 + r3;
 elseif(class_type == 4)
-    r1 = extractFeature(r, c, winWidth -1, winHeight/3 - 1, int_image);
-    r2 = extractFeature(r + winHeight/3, c , winWidth-1, winHeight/3 -1, int_image);
-    r3 = extractFeature(r + 2*winHeigh/3, c, winWidth-1, winheight/3 -1, int_image);
-    feature_response = r1  -r2 + r3;
+    r1 = extractFeature(r, c, winWidth -1, (winHeight/3) - 1, int_image);
+    r2 = extractFeature(r + (winHeight/3), c , winWidth-1, (winHeight/3) -1, int_image);
+    r3 = extractFeature(r + ((2*winHeight)/3), c, winWidth-1, (winHeight/3) -1, int_image);
+    feature_response = r1 - r2 + r3;
 elseif(class_type == 5)
-    r1 = extractFeature(r, c, winWidth/2 -1, winHeight/2 -1, int_image);
-    r2 = extractFeature(r, c+winWidth/2, winWidth/2 -1, winHeight/2 -1, int_image);
-    r3 = extractFeature(r+winHeight/2, c, winWidth/2 -1, winHeight/2 -1, int_image);
-    r4 = extractFeature(r+winHeight/2, c+winWidth/2, winWidth/2 -1, winHeight/2 -1, int_image);
+    r1 = extractFeature(r, c, (winWidth/2) -1, (winHeight/2) -1, int_image);
+    r2 = extractFeature(r, c+(winWidth/2), (winWidth/2) -1, (winHeight/2) -1, int_image);
+    r3 = extractFeature(r+(winHeight/2), c, (winWidth/2) -1, (winHeight/2) -1, int_image);
+    r4 = extractFeature(r+(winHeight/2), c+(winWidth/2), (winWidth/2) -1, (winHeight/2) -1, int_image);
     feature_response = r1 - r2 + r3 - r4;
 else
     response = 0;
