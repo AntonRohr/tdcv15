@@ -16,7 +16,7 @@ if(class_type == 1)
     r2 = extractFeature(r, c+(winWidth/2), (winWidth/2) -1, winHeight -1, int_image);
     feature_response = r1 + r2;
 elseif(class_type == 2)
-    r1 = extractFeature(r,c, winWidth -1, winHeight/2 -1, int_image);
+    r1 = extractFeature(r,c, winWidth -1, (winHeight/2) -1, int_image);
     r2 = extractFeature(r + (winHeight/2), c, winWidth -1, (winHeight/2) - 1, int_image);
     feature_response = r1 + r2;
 elseif(class_type == 3)
@@ -47,7 +47,7 @@ thresh_high = class_mean + abs(maxPos - class_mean) * (R -5) /50;
 if (feature_response >= thresh_low && feature_response <= thresh_high)
     response = alpha;
 else
-    response = 0;
+    response = -alpha;
 end
 
 end

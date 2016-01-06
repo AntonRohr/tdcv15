@@ -21,7 +21,7 @@ for j = 1 : (size(int_image,1) - win_Height)
             sum_responses = sum_responses + response;
         end
         resp_img(j,i) = sum_responses;
-        if(sum_responses >= 0.5*sum_alphas)
+        if(sum_responses >= 0.7*sum_alphas)
             detected{1, size(detected,2) +1} = [i;j;sum_responses];
         end
     end
