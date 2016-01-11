@@ -15,8 +15,8 @@ lowerRightWarp = lowerRight + randi(10);
 pointMatrix = [upperLeft ; lowerLeft; upperRight; lowerRight];
 pointMatrixWarp = [upperLeftWarp; lowerLeftWarp; upperRightWarp; lowerRightWarp];
 
-tform = estimateGeometricTransform(pointMatrix,pointMatrixWarp,'projective')
-invtform = tform.invert
+tform = estimateGeometricTransform(pointMatrix,pointMatrixWarp,'projective');
+invtform = tform.invert();
 
 warpedImg = imwarp(inputImg, tform);
 
