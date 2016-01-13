@@ -1,4 +1,4 @@
-function [ backWarpedGridPoints ] = createWarpedPatch(inputImg, upperLeft, gridPoints, winSize, randVal)
+function [ backWarpedGridPoints, cornerDisplacements ] = createWarpedPatch(inputImg, upperLeft, gridPoints, winSize, randDisp)
 %CREATEWARPEDPATCH Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -6,12 +6,16 @@ lowerLeft = [upperLeft(1) ,upperLeft(2)+winSize];
 upperRight = [upperLeft(1)+winSize ,upperLeft(2)];
 lowerRight = [upperLeft(1)+winSize ,upperLeft(2)+winSize];
 
+cornerDisplacements = zeros(8,1);
+for i = 1:8
+    cornerDisplacements(i) = randi(2*randDisp)-randDisp;
+end
 
 % warpPositions slightly
-upperLeftWarp = [upperLeft(1) + randi(randVal), upperLeft(2) + randi(randVal)];
-lowerLeftWarp = [lowerLeft(1) + randi(randVal), lowerLeft(2) + randi(randVal)];
-upperRightWarp = [upperRight(1) + randi(randVal), upperRight(2) + randi(randVal)];
-lowerRightWarp = [lowerRight(1) + randi(randVal), lowerRight(2) + randi(randVal)];
+upperLeftWarp = [upperLeft(1) + cornerDisplacements(1), upperLeft(2) + cornerDisplacements(2)];
+lowerLeftWarp = [lowerLeft(1) + cornerDisplacements(3), lowerLeft(2) + cornerDisplacements(4)];
+upperRightWarp = [upperRight(1) + cornerDisplacements(5), upperRight(2) + cornerDisplacements(6)];
+lowerRightWarp = [lowerRight(1) + cornerDisplacements(7), lowerRight(2) + cornerDisplacements(8)];
 
 
 pointMatrix = [upperLeft ; lowerLeft; upperRight; lowerRight];
