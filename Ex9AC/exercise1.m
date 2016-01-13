@@ -26,7 +26,7 @@ end
 originalNormalizedIntensities = normalize(originalIntensities);
 
 % numWarpedSamples needs to be >= numOfGridPoints
-numWarpedSamples = numOfGridPoints+100;
+numWarpedSamples = numOfGridPoints+1000;
 
 % this is n in A_n
 numOfUpdateMatrices = 10;
@@ -45,7 +45,7 @@ for i = 1:numOfUpdateMatrices
     I = zeros(numOfGridPoints,numWarpedSamples);
     P = zeros(8, numWarpedSamples);
     
-    for j = 1:numOfGridPoints
+    for j = 1:numWarpedSamples
         
         [cornerDisplacements, warpedIntensities] = createWarpedIntensities(inputImg, mu_r, gridPoints, i*updateMatrixDisplacementStep);
         warpedNormalizedIntensities = normalize(warpedIntensities);
@@ -53,7 +53,7 @@ for i = 1:numOfUpdateMatrices
         %warpedNormalizedIntensities = normalize(warpedPoints(:,3));
         
         %add noise
-        warpedNormalizedIntensities = awgn(warpedNormalizedIntensities,20);
+        warpedNormalizedIntensities = awgn(warpedNormalizedIntensities,10);
         
         I(:,j) = originalNormalizedIntensities - warpedNormalizedIntensities;
         %I(:,j) = normalize(originalNormalizedIntensities - warpedNormalizedIntensities);

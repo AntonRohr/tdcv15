@@ -7,6 +7,7 @@ for i = 1:size(mu_r,1)
 	delta_mu(i) = randi(2*randDisplacement)-randDisplacement;
 end
 
+%delta_mu = delta_mu + 10;
 
 %mu_rForHomography = reshape(mu_r,2,4)';
 %transformedPoints = reshape(mu_r+delta_mu,2,4)';
