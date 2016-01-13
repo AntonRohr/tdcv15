@@ -11,23 +11,25 @@ end
 %mu_rForHomography = reshape(mu_r,2,4)';
 %transformedPoints = reshape(mu_r+delta_mu,2,4)';
 %[tform] = estimateGeometricTransform(mu_rForHomography, transformedPoints, 'projective');
-tform = computeHomography(mu_r, mu_r+delta_mu);
+
+delta_i = computeDeltaI(img, mu_r, mu_r+delta_mu, gridCoordinates);
+
+%tform = computeHomography(mu_r, mu_r+delta_mu);
+
+%warpedImg = imwarp(img, tform.invert, 'OutputView', imref2d(size(img)));
 
 
-warpedImg = imwarp(img, tform.invert, 'OutputView', imref2d(size(img)));
+%delta_i = zeros(size(gridCoordinates,1), 1);
 
-
-delta_i = zeros(size(gridCoordinates,1), 1);
-
-for i = 1:size(delta_i,1)
-    col = gridCoordinates(i,2);
-    row = gridCoordinates(i,1);
-    delta_i(i) = warpedImg(row,col);
-end
+%for i = 1:size(delta_i,1)
+%    col = gridCoordinates(i,2);
+%    row = gridCoordinates(i,1);
+%    delta_i(i) = warpedImg(row,col);
+%end
 
 
 %warpedImg = drawCorners(warpedImg, [mu_rForHomography(:,2), mu_rForHomography(:,1)], 'circle');
-%img = drawCorners(img, [transformedPoints(:,2), transformedPoints(:,1)], 'circle');
+%img = drawCorners(img, [transformedPoints(:,2), transformedPoints(:,1); mu_rForHomography(:,2), mu_rForHomography(:,1)], 'circle');
 
 
 

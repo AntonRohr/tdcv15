@@ -47,7 +47,7 @@ for i = 1:numOfUpdateMatrices
     
     for j = 1:numOfGridPoints
         
-        [cornerDisplacements, warpedIntensities] = createWarpedIntensities(inputImg, mu_r, gridPoints(:,1:2), i*updateMatrixDisplacementStep);
+        [cornerDisplacements, warpedIntensities] = createWarpedIntensities(inputImg, mu_r, gridPoints, i*updateMatrixDisplacementStep);
         warpedNormalizedIntensities = normalize(warpedIntensities);
         %[warpedPoints, cornerDisplacements] = createWarpedPatch(inputImg, upperLeft, gridPoints, winSize, i*updateMatrixDisplacementStep);
         %warpedNormalizedIntensities = normalize(warpedPoints(:,3));
