@@ -1,4 +1,4 @@
-%imageSeq = readImages();
+imageSeq = readImages();
 
 
 for i = 2:size(imageSeq, 1)

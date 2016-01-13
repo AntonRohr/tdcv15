@@ -3,13 +3,13 @@ function [ images ] = readImages( )
 %   Detailed explanation goes here
 
 file = dir('seq');
-NF = length(file)-3;
+NF = length(file)-2;
 images = cell(NF,1);
 
 % here I need to specify "k+3" because we want to ignore '.' '..' and
 % '0000.png' (i.e. the first three files in the folder)
 for k = 1 : NF
-  images{k} = imread(fullfile('seq', file(k+3).name));
+  images{k} = imread(fullfile('seq', file(k+2).name));
 end
 
 end
