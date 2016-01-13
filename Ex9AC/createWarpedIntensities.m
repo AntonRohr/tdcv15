@@ -8,11 +8,11 @@ for i = 1:size(mu_r,1)
 end
 
 
-mu_rForHomography = reshape(mu_r,2,4)';
+%mu_rForHomography = reshape(mu_r,2,4)';
+%transformedPoints = reshape(mu_r+delta_mu,2,4)';
+%[tform] = estimateGeometricTransform(mu_rForHomography, transformedPoints, 'projective');
+tform = computeHomography(mu_r, mu_r+delta_mu);
 
-transformedPoints = reshape(mu_r+delta_mu,2,4)';
-
-[tform] = estimateGeometricTransform(mu_rForHomography, transformedPoints, 'projective');
 
 warpedImg = imwarp(img, tform.invert, 'OutputView', imref2d(size(img)));
 
