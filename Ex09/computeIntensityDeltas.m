@@ -19,6 +19,9 @@ for i = 1 : size(homographies,2)
     %Sample the backwarped template
     sample = interp2(1:size(reference_image,2),1:size(reference_image,1),reference_image, ...
         backwarped_grid(:,1),backwarped_grid(:,2),'linear',0);
+    %Normalize the sample
+    sample = sample - mean(sample);
+    sample = sample./std(sample);
     %Need to add some noise to the sample
     sample = sample+0.01*rand(size(sample));
     
