@@ -16,9 +16,8 @@ drawedRef = drawCorners(imageSeq{1}, [muDraw(:,2), muDraw(:,1)], 'circle');
 
 for k = 2:size(imageSeq, 1)
     currentImg = imageSeq{k};
-    
+    tic;
     for j = size(A,3):-1:1    
-    %for j = 1
         for i = 1:5     
 
             imgIntensities = computeDeltaI(currentImg, mu_r, mu, gridPoints);
@@ -32,8 +31,7 @@ for k = 2:size(imageSeq, 1)
             %Hc = computeHomography(mu_r, mu);
 
             %current Homography Hu
-            %Hu = computeHomography(mu_r, mu_r+delta_p); % might be mu
-            %disp();
+            %Hu = computeHomography(mu, mu+delta_p); % might be mu
 
             % compute new homography Hn 
             Hn = computeHomography(mu_r,mu+delta_p);
@@ -43,12 +41,13 @@ for k = 2:size(imageSeq, 1)
 
         end
     end
+    toc;
     k
     mu
     muDraw = reshape(mu,2,4)';
     drawed = drawCorners(currentImg, [muDraw(:,2), muDraw(:,1)], 'circle');
-    imshowpair(drawedRef, drawed, 'montage');
-    imwrite(drawed,['result/img_', sprintf('%03d',k), '.png']);
+    %imshowpair(drawedRef, drawed, 'montage');
+    imwrite(drawed,['result/img_', sprintf('%03d',k), '.pgm']);
     %disp();
 end
 
