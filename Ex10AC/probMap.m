@@ -10,6 +10,8 @@ for row = 1:size(roi,1)
     end
 end
 
+pd = pd .* (255/max(max(pd)));
+
 
 
 
