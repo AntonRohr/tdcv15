@@ -28,3 +28,4 @@ homographies = estimateHomographies(p_ref, perturbations);
 intensity_deltas = computeIntensityDeltas(reference_image, grid_ref, homographies);
 
 %% Compute the matrix A
+A = perturbations * intensity_deltas' * inv(intensity_deltas*intensity_deltas');
