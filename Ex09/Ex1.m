@@ -18,14 +18,19 @@ grid_ref = initGrid(200,300,230,330);
 
 %% Compute random pertubations
 number_perturbations = size(grid_ref,2) + 40; %n = # grid points
-scale = 3;
-perturbations = perturbParams(p_ref, scale, number_perturbations);
 
-%% Compute homographies based on pertubations
-homographies = estimateHomographies(p_ref, perturbations);
+As = zeros(10,8,361);
+for i = 10:-1:1
+    scale = 3*i;
+    perturbations = perturbParams(p_ref, scale, number_perturbations);
 
-%% Compute the intensity deltas for each pertubation
-intensity_deltas = computeIntensityDeltas(reference_image, grid_ref, homographies);
+    %% Compute homographies based on pertubations
+    homographies = estimateHomographies(p_ref, perturbations);
 
-%% Compute the matrix A
-A = perturbations * intensity_deltas' * inv(intensity_deltas*intensity_deltas');
+    %% Compute the intensity deltas for each pertubation
+    intensity_deltas = computeIntensityDeltas(reference_image, grid_ref, homographies);
+
+    %% Compute the matrix A
+    A = perturbations * intensity_deltas' * inv(intensity_deltas*intensity_deltas');
+    As(i,:,:) = A;
+end
