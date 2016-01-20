@@ -12,7 +12,8 @@ for i = 1 : size(homographies,2)
     
     %Backwarp the template
     
-    backwarped_grid = [grid_coordinates(:,1),grid_coordinates(:,2),ones(size(grid_coordinates,1),1)]*inv(H)';
+    backwarped_grid = inv(H)*[grid_coordinates(:,1),grid_coordinates(:,2),ones(size(grid_coordinates,1),1)]';
+    backwarped_grid = backwarped_grid';
     backwarped_grid = backwarped_grid./repmat(backwarped_grid(:,3),1,3);
     backwarped_grid = backwarped_grid(:,1:2);
     
@@ -22,14 +23,13 @@ for i = 1 : size(homographies,2)
     %Normalize the sample
     sample = sample - mean(sample);
     sample = sample./std(sample);
-    %Need to add some noise to the sample
-    sample = sample+0.01*rand(size(sample));
-    
+
     %Compute the intensity differences 
     intensity_deltas(:,i) = sample - ref_intensities;
     
 end
 
+intensity_deltas = intensity_deltas + 0.001*randn(size(intensity_deltas));
 
 end
 
