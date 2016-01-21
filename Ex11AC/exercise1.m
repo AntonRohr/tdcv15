@@ -11,8 +11,6 @@ templateRGB = inputImageRGB(templateTLR:templateBRR, templateTLC:templateBRC, :)
 templateGray = inputImageGray(templateTLR:templateBRR, templateTLC:templateBRC);
 
 
-%scoresNCC = ncc(im2double(templateGray),im2double(inputImageGray));
-%[maxNCCrow, maxNCCcol] = find(scoresNCC==max(max(scoresNCC)),1);
 
 %how many pyramid levels are wanted
 pyrLevels = 20;
@@ -22,13 +20,13 @@ searchWinTL = [1,1];
 searchWinBR = size(inputImageGray);
 
 for i = 1:pyrLevels
-    %templateGrayScaled = imresize(templateGray, i/pyrLevels);
-    %inputImageGrayScaled = imresize(inputImageGray, i/pyrLevels);
- 	
+    
     scale = i/pyrLevels; % set the scaling factor
     
-    resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @nccPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
-    %resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @ssdPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
+    resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @nccRGBPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
+    %resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @ssdRGBPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
+    %resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @nccGrayPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
+    %resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @ssdGrayPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
     resultBR = resultTL + size(templateGray);
     
     searchWinTL = resultTL - round(size(inputImageGray)/(scale*50));

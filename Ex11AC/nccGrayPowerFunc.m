@@ -1,4 +1,4 @@
-function [ result ] = nccPowerFunc( template, roi )
+function [ result ] = nccGrayPowerFunc( template, roi )
 %NCC Summary of this function goes here
 %   Detailed explanation goes here
 

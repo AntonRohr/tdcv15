@@ -1,4 +1,4 @@
-function [ result ] = ssdPowerFunc( template, roi )
+function [ result ] = ssdGrayPowerFunc( template, roi )
 %TMP Summary of this function goes here
 %   Detailed explanation goes here
 

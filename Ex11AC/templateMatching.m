@@ -8,11 +8,12 @@ image = imresize(image, scale);
 
 % scale search window
 searchWinTL = max(round(searchWinTL * scale), [1,1]);
-searchWinBR = min(round(searchWinBR * scale), size(image));
+
+searchWinBR = min(round(searchWinBR * scale), size(image(:,:,1)));
 
 % setup score data matrix
 scoreImgTL = searchWinTL;
-scoreImgBR = searchWinBR - size(template);
+scoreImgBR = searchWinBR - size(template(:,:,1));
 scoreImg = zeros(scoreImgBR-scoreImgTL);
 
 
@@ -22,7 +23,7 @@ for row = 1:size(scoreImg, 1)
         cPos = [row,col] + scoreImgTL; % cPos = currentPos in real image
         
         % extract region of interest from image;
-        roiImg = image(cPos(1):cPos(1)+size(template,1)-1,cPos(2):cPos(2)+size(template,2)-1);
+        roiImg = image(cPos(1):cPos(1)+size(template,1)-1,cPos(2):cPos(2)+size(template,2)-1,:);
 
         scoreImg(row,col) = powerFunc(template, roiImg);
         
