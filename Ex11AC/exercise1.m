@@ -15,7 +15,7 @@ templateGray = inputImageGray(templateTLR:templateBRR, templateTLC:templateBRC);
 %[maxNCCrow, maxNCCcol] = find(scoresNCC==max(max(scoresNCC)),1);
 
 %how many pyramid levels are wanted
-pyrLevels = 10;
+pyrLevels = 20;
 
 %initialize search window [row col]
 searchWinTL = [1,1];
@@ -27,7 +27,8 @@ for i = 1:pyrLevels
  	
     scale = i/pyrLevels; % set the scaling factor
     
-    resultTL = ssd(im2double(templateGray), im2double(inputImageGray), scale, searchWinTL, searchWinBR);
+    resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @nccPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
+    %resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @ssdPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
     resultBR = resultTL + size(templateGray);
     
     searchWinTL = resultTL - round(size(inputImageGray)/(scale*50));
