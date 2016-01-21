@@ -37,18 +37,21 @@ searchWinBR = size(inputImageGray);
 
 %how many pyramid levels are wanted
 pyrLevels = 20;
-
+tic;
 for i = 1:pyrLevels
     
     scale = i/pyrLevels; % set the scaling factor
     
     % ssd
-    resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @ssdGrayPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
+    %resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @ssdGrayPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
     %resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @ssdRGBPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
+    
     % ncc
     %resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @nccGrayPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
     %resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @nccRGBPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
-    
+    % em
+    t = 3;
+    resultTL = templateMatching(Ofunction(im2double(templateRGB),t), Ofunction(im2double(inputImageRGB),t), @emPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
     
     resultBR = resultTL + size(templateGray);
     
@@ -58,6 +61,11 @@ for i = 1:pyrLevels
     drawedImg = drawRectangle(inputImageRGB, resultTL(1), resultTL(2), resultBR(1), resultBR(2));
     imshow(drawedImg);
     disp('');
+    %pause(0.1);
     
 end
+toc;
 
+drawedImg = drawRectangle(inputImageRGB, resultTL(1), resultTL(2), resultBR(1), resultBR(2));
+imshow(drawedImg);
+disp('');
