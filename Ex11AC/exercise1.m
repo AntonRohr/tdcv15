@@ -12,21 +12,44 @@ templateGray = inputImageGray(templateTLR:templateBRR, templateTLC:templateBRC);
 
 
 
-%how many pyramid levels are wanted
-pyrLevels = 20;
 
 %initialize search window [row col]
 searchWinTL = [1,1];
 searchWinBR = size(inputImageGray);
 
+%% without pyramid
+
+% ssd
+%resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @ssdGrayPowerFunc, @findMin, 1, searchWinTL, searchWinBR);
+%resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @ssdRGBPowerFunc, @findMin, 1, searchWinTL, searchWinBR);
+% ncc
+%resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @nccGrayPowerFunc, @findMax, 1, searchWinTL, searchWinBR);
+%resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @nccRGBPowerFunc, @findMax, 1, searchWinTL, searchWinBR);
+
+
+%resultBR = resultTL + size(templateGray);
+
+%drawedImg = drawRectangle(inputImageRGB, resultTL(1), resultTL(2), resultBR(1), resultBR(2));
+%imshow(drawedImg);
+%disp('');
+
+%% with pyramid searching
+
+%how many pyramid levels are wanted
+pyrLevels = 20;
+
 for i = 1:pyrLevels
     
     scale = i/pyrLevels; % set the scaling factor
     
-    resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @nccRGBPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
+    % ssd
+    resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @ssdGrayPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
     %resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @ssdRGBPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
+    % ncc
     %resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @nccGrayPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
-    %resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @ssdGrayPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
+    %resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @nccRGBPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
+    
+    
     resultBR = resultTL + size(templateGray);
     
     searchWinTL = resultTL - round(size(inputImageGray)/(scale*50));
@@ -37,9 +60,4 @@ for i = 1:pyrLevels
     disp('');
     
 end
-
-
-
-
-%drawedImg = drawRectangle(inputImageRGB, minSSDrow, minSSDcol, minSSDrow+size(templateRGB,1), minSSDcol+size(templateRGB,2));
 
