@@ -1,39 +1,42 @@
 inputImageRGB = imread('2043_000162.jpeg');
 inputImageGray = rgb2gray(inputImageRGB);
 
-% template measures
-topLeftRow = 337;
-topLeftCol = 365;
-botRightRow = 400;
-botRightCol = 450;
+% template measures 
+templateTLR = 337; % TLR = TopLeftRow
+templateTLC = 365; % TLC = TopLeftCol
+templateBRR = 400; % BRR = BotRightRow
+templateBRC = 450; % BRC = BotRightCol
 
-templateRGB = inputImageRGB(topLeftRow:botRightRow, topLeftCol:botRightCol, :);
-templateGray = inputImageGray(topLeftRow:botRightRow, topLeftCol:botRightCol);
+templateRGB = inputImageRGB(templateTLR:templateBRR, templateTLC:templateBRC, :);
+templateGray = inputImageGray(templateTLR:templateBRR, templateTLC:templateBRC);
 
 
 %scoresNCC = ncc(im2double(templateGray),im2double(inputImageGray));
 %[maxNCCrow, maxNCCcol] = find(scoresNCC==max(max(scoresNCC)),1);
 
-scales = 10;
+%how many pyramid levels are wanted
+pyrLevels = 10;
 
-for i = 1:scales
-    templateGrayScaled = imresize(templateGray, i/scales);
-    inputImageGrayScaled = imresize(inputImageGray, i/scales);
+%initialize search window [row col]
+searchWinTL = [1,1];
+searchWinBR = size(inputImageGray);
+
+for i = 1:pyrLevels
+    %templateGrayScaled = imresize(templateGray, i/pyrLevels);
+    %inputImageGrayScaled = imresize(inputImageGray, i/pyrLevels);
+ 	
+    scale = i/pyrLevels; % set the scaling factor
     
-    scoresSSD = ssd(im2double(templateGrayScaled), im2double(inputImageGrayScaled));
-    [minSSDrow, minSSDcol] = find(scoresSSD==min(min(scoresSSD)),1);
+    resultTL = ssd(im2double(templateGray), im2double(inputImageGray), scale, searchWinTL, searchWinBR);
+    resultBR = resultTL + size(templateGray);
     
-    drawedImg = drawRectangle(imresize(inputImageRGB,i/scales), minSSDrow, minSSDcol, minSSDrow+size(templateGrayScaled,1), minSSDcol+size(templateGrayScaled,2));
+    searchWinTL = resultTL - round(size(inputImageGray)/(scale*50));
+    searchWinBR = resultBR + round(size(inputImageGray)/(scale*50));
+    
+    drawedImg = drawRectangle(inputImageRGB, resultTL(1), resultTL(2), resultBR(1), resultBR(2));
     imshow(drawedImg);
-    disp(i/scales);
+    disp('');
     
-    minSSDrow = minSSDrow*(scales/i);
-    minSSDcol = minSSDcol*(scales/i);
-
-
-    drawedImg = drawRectangle(inputImageRGB, minSSDrow, minSSDcol, minSSDrow+(size(templateGrayScaled,1)*(scales/i)), minSSDcol+(size(templateGrayScaled,2)*(scales/i)));
-    imshow(drawedImg);
-    disp(scales/i);
 end
 
 
