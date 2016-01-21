@@ -11,12 +11,33 @@ templateRGB = inputImageRGB(topLeftRow:botRightRow, topLeftCol:botRightCol, :);
 templateGray = inputImageGray(topLeftRow:botRightRow, topLeftCol:botRightCol);
 
 
-%scoresSSD = ssd(im2double(templateGray), im2double(inputImageGray));
 %scoresNCC = ncc(im2double(templateGray),im2double(inputImageGray));
+%[maxNCCrow, maxNCCcol] = find(scoresNCC==max(max(scoresNCC)),1);
 
-[minSSDrow, minSSDcol] = find(scoresSSD==min(min(scoresSSD)),3);
+scales = 10;
+
+for i = 1:scales
+    templateGrayScaled = imresize(templateGray, i/scales);
+    inputImageGrayScaled = imresize(inputImageGray, i/scales);
+    
+    scoresSSD = ssd(im2double(templateGrayScaled), im2double(inputImageGrayScaled));
+    [minSSDrow, minSSDcol] = find(scoresSSD==min(min(scoresSSD)),1);
+    
+    drawedImg = drawRectangle(imresize(inputImageRGB,i/scales), minSSDrow, minSSDcol, minSSDrow+size(templateGrayScaled,1), minSSDcol+size(templateGrayScaled,2));
+    imshow(drawedImg);
+    disp(i/scales);
+    
+    minSSDrow = minSSDrow*(scales/i);
+    minSSDcol = minSSDcol*(scales/i);
 
 
-drawedImg = drawRectangle(inputImageRGB, minSSDrow, minSSDcol, minSSDrow+size(templateRGB,1), minSSDcol+size(templateRGB,2));
+    drawedImg = drawRectangle(inputImageRGB, minSSDrow, minSSDcol, minSSDrow+(size(templateGrayScaled,1)*(scales/i)), minSSDcol+(size(templateGrayScaled,2)*(scales/i)));
+    imshow(drawedImg);
+    disp(scales/i);
+end
 
-imshow(drawedImg);
+
+
+
+%drawedImg = drawRectangle(inputImageRGB, minSSDrow, minSSDcol, minSSDrow+size(templateRGB,1), minSSDcol+size(templateRGB,2));
+
