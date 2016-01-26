@@ -16,6 +16,7 @@ n = 10; t = 1; T = 40; N = 100;
 %[H, inliers_box, inliers_scene] = RANSAC(matches_box, matches_scene, n, t, T, N);
 [H, inliers_box, inliers_scene] = adaptiveRANSAC(matches_box, matches_scene, t, T, N);
 plotMatches(box, scene, inliers_box, inliers_scene);
+title([num2str(size(inliers_box,2)) ' of ' num2str(size(matches_box,2)) ' inliers']);
 
 %Compute a MATLAB transform from the homography
 box_to_scene = projective2d(H');
@@ -35,7 +36,9 @@ y_warped_box = translation(2);
 x_warped_box = translation(1);
 
 %Create the overlapped scene
-overlapped_scene = overlapImage(scene, warped_box, x_warped_box, y_warped_box);
+overlapped_box = overlapImage(scene, warped_box, x_warped_box, y_warped_box);
+
+
 
 %Compute the translation vector of the original box into the warped scene
 K = scene_to_box.T';
@@ -45,7 +48,7 @@ translation = floor(translation([1,2],3));
 y_warped_scene = translation(2);
 x_warped_scene = translation(1);
 
-%Create the overlaped box
+%Create the overlapepd box
 overlapped_scene = overlapImage(warped_scene, box, x_warped_scene, y_warped_scene);
 
 figure;
