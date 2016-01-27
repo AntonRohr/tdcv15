@@ -17,21 +17,8 @@ grayscale_template = grayscale_test_image(template_y:(template_y + 59),(template
 
 %% compute the score of color image
 tic;
-color = true;
-%compute gradient magnitude
-G_I_color = computeGxy(test_image,color);
-G_T_color = computeGxy(color_template,color);
-%compute gradient orientation
-Oxy_I_color = computeOxy(G_I_color,1);
-Oxy_T_color = computeOxy(G_T_color,1);
-%compute the score image
-score_image_color = scoreImage2(Oxy_T_color, Oxy_I_color);
+score_EM_color = scoreImageGradient(color_template, test_image, true);
 
 %% compute the score of gray image
-color = false;
-G_I_gray = computeGxy(grayscale_test_image,color);
-G_T_gray = computeGxy(grayscale_template,color);
-Oxy_I_gray = computeOxy(G_I_gray,1);
-Oxy_T_gray = computeOxy(G_T_gray,1);
-score_image_gray = scoreImage2(Oxy_T_gray, Oxy_I_gray);
+score_EM_gray = scoreImageGradient(grayscale_template, grayscale_test_image, false);
 toc;
