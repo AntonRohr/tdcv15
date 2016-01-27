@@ -1,71 +1,34 @@
-inputImageRGB = imread('2043_000162.jpeg');
-inputImageGray = rgb2gray(inputImageRGB);
+image = im2double(imread('img.jpeg'));
+%image = im2double(imread('img_girl.jpg'));
 
-% template measures 
-templateTLR = 337; % TLR = TopLeftRow
-templateTLC = 365; % TLC = TopLeftCol
-templateBRR = 400; % BRR = BotRightRow
-templateBRC = 450; % BRC = BotRightCol
+% template measures [row, col]
+templateTL = [337, 365]; % TL = TopLeft
+templateBR = [400, 450]; % BR = BottomRight
+%templateTL = [400, 800]; % TL = TopLeft
+%templateBR = [600, 1100]; % BR = BottomRight
 
-templateRGB = inputImageRGB(templateTLR:templateBRR, templateTLC:templateBRC, :);
-templateGray = inputImageGray(templateTLR:templateBRR, templateTLC:templateBRC);
+% parameter
+searchWinFac = 100;
+nbPyramids = 20;
 
+%% showroom 
+%performTask(image, templateTL, templateBR, 1, 20, 'em', searchWinFac, 0, 1)
 
-
-
-%initialize search window [row col]
-searchWinTL = [1,1];
-searchWinBR = size(inputImageGray);
-
-%% without pyramid
-
-% ssd
-%resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @ssdGrayPowerFunc, @findMin, 1, searchWinTL, searchWinBR);
-%resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @ssdRGBPowerFunc, @findMin, 1, searchWinTL, searchWinBR);
-% ncc
-%resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @nccGrayPowerFunc, @findMax, 1, searchWinTL, searchWinBR);
-%resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @nccRGBPowerFunc, @findMax, 1, searchWinTL, searchWinBR);
+%%measuring
 
 
-%resultBR = resultTL + size(templateGray);
 
-%drawedImg = drawRectangle(inputImageRGB, resultTL(1), resultTL(2), resultBR(1), resultBR(2));
-%imshow(drawedImg);
-%disp('');
+resultSSDGray = zeros(nbPyramids,3);
+resultSSDRGB = zeros(nbPyramids,3);
+resultNCCGray = zeros(nbPyramids,3);
+resultNCCRGB = zeros(nbPyramids,3);
+resultEMRGB = zeros(nbPyramids,3);
 
-%% with pyramid searching
-
-%how many pyramid levels are wanted
-pyrLevels = 20;
-tic;
-for i = 1:pyrLevels
-    
-    scale = i/pyrLevels; % set the scaling factor
-    
-    % ssd
-    %resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @ssdGrayPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
-    %resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @ssdRGBPowerFunc, @findMin, scale, searchWinTL, searchWinBR);
-    
-    % ncc
-    %resultTL = templateMatching(im2double(templateGray), im2double(inputImageGray), @nccGrayPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
-    %resultTL = templateMatching(im2double(templateRGB), im2double(inputImageRGB), @nccRGBPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
-    % em
-    t = 3;
-    resultTL = templateMatching(Ofunction(im2double(templateRGB),t), Ofunction(im2double(inputImageRGB),t), @emPowerFunc, @findMax, scale, searchWinTL, searchWinBR);
-    
-    resultBR = resultTL + size(templateGray);
-    
-    searchWinTL = resultTL - round(size(inputImageGray)/(scale*50));
-    searchWinBR = resultBR + round(size(inputImageGray)/(scale*50));
-    
-    drawedImg = drawRectangle(inputImageRGB, resultTL(1), resultTL(2), resultBR(1), resultBR(2));
-    imshow(drawedImg);
-    disp('');
-    %pause(0.1);
-    
+for i = nbPyramids:-1:1
+    resultSSDGray(i,:) = performTask(image, templateTL, templateBR, 1, i, 'ssd',searchWinFac, 0, 0);
+    resultSSDRGB(i,:) = performTask(image, templateTL, templateBR, 0, i, 'ssd', searchWinFac, 0,0);
+    resultNCCGray(i,:) = performTask(image, templateTL, templateBR, 1, i, 'ncc', searchWinFac, 0,0);
+    resultNCCRGB(i,:) = performTask(image, templateTL, templateBR, 0, i, 'ncc', searchWinFac, 0,0);
+    resultEMRGB(i,:) = performTask(image, templateTL, templateBR, 0, i, 'em', searchWinFac, 3,0);
+    i
 end
-toc;
-
-drawedImg = drawRectangle(inputImageRGB, resultTL(1), resultTL(2), resultBR(1), resultBR(2));
-imshow(drawedImg);
-disp('');

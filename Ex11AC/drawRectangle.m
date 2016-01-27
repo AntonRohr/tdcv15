@@ -1,4 +1,4 @@
-function [ outputImage ] = drawRectangle(rgbImg, topLeftRow, topLeftCol, botRightRow, botRightCol)
+function [ outputImage ] = drawRectangle(rgbImg, topLeftRow, topLeftCol, botRightRow, botRightCol, color)
 
 topLeft = [topLeftCol, topLeftRow];
 topRight = [botRightCol, topLeftRow];
@@ -14,7 +14,7 @@ lines = [line1;line2;line3;line4];
 
 lines = int32(lines);
 
-outputImage = insertShape(rgbImg, 'Line', lines, 'LineWidth', 2, 'Color', 'red');
+outputImage = insertShape(rgbImg, 'Line', lines, 'LineWidth', 2, 'Color', color);
 %output = insertShape(RGBimage, 'Line', lines, 'Color', color);
 
 end

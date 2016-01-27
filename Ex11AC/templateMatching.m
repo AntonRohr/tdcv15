@@ -9,6 +9,7 @@ image = imresize(image, scale);
 % scale search window
 searchWinTL = max(round(searchWinTL * scale), [1,1]);
 
+disp('');
 searchWinBR = min(round(searchWinBR * scale), size(image(:,:,1)));
 
 % setup score data matrix
@@ -30,7 +31,6 @@ for row = 1:size(scoreImg, 1)
         
     end   
 end
-
 
 
 % find resulting position, using resultFunc
